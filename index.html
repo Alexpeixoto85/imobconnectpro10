@@ -180,12 +180,8 @@
             font-weight: 400;
         }
 
-        .header-actions-mobile {
-            display: flex;
-            gap: var(--space-xs);
-        }
-
-        .icon-btn {
+        /* MENU HAMBÚRGUER E MENU LATERAL */
+        .hamburger-menu {
             width: 44px;
             height: 44px;
             border-radius: var(--radius);
@@ -197,14 +193,155 @@
             justify-content: center;
             cursor: pointer;
             transition: all var(--transition);
-            font-size: 1.1rem;
-            min-height: var(--touch-height-sm);
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1001;
         }
 
-        .icon-btn:hover, .icon-btn:active {
+        .hamburger-menu:hover, .hamburger-menu:active {
             background: rgba(255,255,255,0.25);
             transform: translateY(-2px);
             box-shadow: var(--shadow);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            z-index: 1002;
+            transition: transform var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-xl) var(--space) var(--space);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            border-left: 1px solid var(--gray-200);
+        }
+
+        .side-menu.active {
+            transform: translateX(-300px);
+        }
+
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space);
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .side-menu-title {
+            font-size: var(--text-xl);
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+
+        .menu-close {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius);
+            background: var(--gray-100);
+            border: none;
+            color: var(--gray-700);
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .menu-close:hover {
+            background: var(--gray-200);
+            transform: rotate(90deg);
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            flex: 1;
+        }
+
+        .menu-item {
+            padding: var(--space) var(--space);
+            border-radius: var(--radius);
+            background: var(--gray-50);
+            border: 2px solid transparent;
+            color: var(--gray-800);
+            font-weight: 600;
+            font-size: var(--text-base);
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: var(--space);
+            text-align: left;
+            min-height: var(--touch-height);
+        }
+
+        .menu-item:hover {
+            background: var(--gray-100);
+            transform: translateX(4px);
+            border-color: var(--primary-light);
+        }
+
+        .menu-item i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .menu-item-danger {
+            background: rgba(220, 53, 69, 0.08);
+            color: var(--error);
+        }
+
+        .menu-item-danger i {
+            color: var(--error);
+        }
+
+        .menu-item-danger:hover {
+            background: rgba(220, 53, 69, 0.12);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: var(--gray-200);
+            margin: var(--space) 0;
+            width: 100%;
+        }
+
+        .menu-footer {
+            margin-top: auto;
+            padding-top: var(--space);
+            border-top: 1px solid var(--gray-200);
+            font-size: var(--text-xs);
+            color: var(--gray-500);
+            text-align: center;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .menu-overlay.active {
+            display: block;
         }
 
         /* ============================================
@@ -552,7 +689,7 @@
         }
 
         /* ============================================
-           MENSAGENS - CORREÇÃO DO PROBLEMA
+           MENSAGENS
            ============================================ */
         .message-toolbar-mobile {
             display: flex;
@@ -679,7 +816,7 @@
         }
 
         /* ============================================
-           FOOTER MOBILE MELHORADO
+           FOOTER MOBILE SIMPLIFICADO
            ============================================ */
         .mobile-footer {
             position: fixed;
@@ -690,68 +827,44 @@
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(0,0,0,0.1);
             padding: var(--space-sm) var(--space);
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-sm);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
             z-index: 1000;
             box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
             padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
         }
 
-        @media (min-width: 768px) {
-            .mobile-footer {
-                grid-template-columns: repeat(6, 1fr);
-            }
-        }
-
-        .footer-btn {
-            padding: var(--space-xs) 4px;
-            background: none;
+        .footer-action-btn {
+            padding: var(--space-sm) var(--space);
+            background: var(--gradient-primary);
+            color: white;
             border: none;
-            border-radius: var(--radius);
-            color: var(--gray-600);
-            font-size: var(--text-xs);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+            border-radius: var(--radius-lg);
+            font-weight: 700;
+            font-size: var(--text-base);
             cursor: pointer;
             transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
-            min-height: 56px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            min-height: var(--touch-height-lg);
+            box-shadow: var(--shadow);
+            flex: 1;
+            justify-content: center;
+            max-width: 90%;
         }
 
-        .footer-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: var(--primary);
-            border-radius: var(--radius-full);
-            transition: width var(--transition);
-        }
-
-        .footer-btn:hover, .footer-btn:active {
-            background: var(--primary-light);
-            color: var(--primary);
+        .footer-action-btn:hover, .footer-action-btn:active {
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            opacity: 0.95;
         }
 
-        .footer-btn:hover::after, .footer-btn:active::after {
-            width: 70%;
-        }
-
-        .footer-btn i {
-            font-size: 1.2rem;
-        }
-
-        .footer-btn span {
-            font-weight: 600;
-            font-size: var(--text-xs);
+        .footer-action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
         /* ============================================
@@ -999,6 +1112,30 @@
             color: white;
         }
 
+        body.dark-mode .side-menu {
+            background: var(--gray-800);
+            border-color: var(--gray-700);
+        }
+
+        body.dark-mode .side-menu-title {
+            color: var(--gray-100);
+        }
+
+        body.dark-mode .menu-item {
+            background: var(--gray-700);
+            color: var(--gray-100);
+            border-color: var(--gray-600);
+        }
+
+        body.dark-mode .menu-item:hover {
+            background: var(--gray-600);
+        }
+
+        body.dark-mode .menu-close {
+            background: var(--gray-700);
+            color: var(--gray-300);
+        }
+
         /* ============================================
            UTILITY CLASSES
            ============================================ */
@@ -1073,10 +1210,6 @@
         @media (min-width: 768px) {
             .container {
                 max-width: 768px;
-            }
-            
-            .mobile-footer {
-                grid-template-columns: repeat(5, 1fr);
             }
             
             .form-section,
@@ -1164,17 +1297,9 @@
                     <p>Sistema Mobile para Corretores</p>
                 </div>
             </div>
-            <div class="header-actions-mobile">
-                <button class="icon-btn" id="upload-logo-btn" title="Carregar Logo" aria-label="Carregar Logo">
-                    <i class="fas fa-upload"></i>
-                </button>
-                <button class="icon-btn" id="dark-mode-toggle" title="Modo Escuro" aria-label="Alternar Modo Escuro">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button class="icon-btn" id="backup-btn" title="Backup" aria-label="Realizar Backup">
-                    <i class="fas fa-database"></i>
-                </button>
-            </div>
+            <button class="hamburger-menu" id="menu-toggle" aria-label="Abrir menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
         
         <div class="stats-bar">
@@ -1196,6 +1321,81 @@
             </div>
         </div>
     </header>
+
+    <!-- Menu Lateral -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="side-menu" id="side-menu">
+        <div class="side-menu-header">
+            <div class="side-menu-title">Menu</div>
+            <button class="menu-close" id="menu-close" aria-label="Fechar menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="menu-items">
+            <button class="menu-item" id="menu-item-upload-logo">
+                <i class="fas fa-upload"></i>
+                Carregar Logo
+            </button>
+            
+            <button class="menu-item" id="menu-item-dark-mode">
+                <i class="fas fa-moon"></i>
+                Modo Escuro
+            </button>
+            
+            <button class="menu-item" id="menu-item-backup">
+                <i class="fas fa-database"></i>
+                Backup & Restauração
+            </button>
+            
+            <button class="menu-item" id="menu-item-templates">
+                <i class="fas fa-file-alt"></i>
+                Gerenciar Templates
+            </button>
+            
+            <button class="menu-item" id="menu-item-history">
+                <i class="fas fa-history"></i>
+                Histórico de Envios
+            </button>
+            
+            <button class="menu-item" id="menu-item-scheduled">
+                <i class="fas fa-clock"></i>
+                Mensagens Agendadas
+            </button>
+            
+            <button class="menu-item" id="menu-item-remarketing">
+                <i class="fas fa-users-line"></i>
+                Remarketing
+            </button>
+            
+            <button class="menu-item" id="menu-item-export">
+                <i class="fas fa-file-export"></i>
+                Exportar Dados
+            </button>
+            
+            <div class="menu-divider"></div>
+            
+            <button class="menu-item menu-item-danger" id="menu-item-clear-history">
+                <i class="fas fa-trash"></i>
+                Limpar Histórico
+            </button>
+            
+            <button class="menu-item menu-item-danger" id="menu-item-clear-contacts">
+                <i class="fas fa-user-times"></i>
+                Limpar Contatos
+            </button>
+            
+            <button class="menu-item" id="menu-item-import-contacts">
+                <i class="fas fa-file-import"></i>
+                Importar Contatos
+            </button>
+        </div>
+        
+        <div class="menu-footer">
+            <div>ImobiConnect Pro v2.0</div>
+            <div style="font-size: 0.7rem; margin-top: 4px;">Sistema otimizado para corretores</div>
+        </div>
+    </div>
 
     <!-- Tabs Mobile -->
     <div class="tabs-mobile-container">
@@ -1316,17 +1516,6 @@
                         <i class="fas fa-user input-icon-mobile"></i>
                         <input type="text" id="client-name-pc" class="form-input-mobile" placeholder="João Silva, Maria Santos" aria-label="Nomes dos clientes">
                     </div>
-                    <div class="input-buttons" style="display: flex; gap: var(--space-sm); margin-top: var(--space-sm); flex-wrap: wrap;">
-                        <button class="btn btn-secondary btn-sm" data-action="import-contacts" data-target="pc">
-                            <i class="fas fa-file-excel"></i> Importar
-                        </button>
-                        <button class="btn btn-secondary btn-sm" data-action="prepare-file" data-target="pc">
-                            <i class="fas fa-file-import"></i> Preparar
-                        </button>
-                        <button class="btn btn-primary btn-sm" data-action="remarketing" data-target="pc">
-                            <i class="fas fa-users-line"></i> Remarketing
-                        </button>
-                    </div>
                 </div>
 
                 <div class="form-group-mobile">
@@ -1412,16 +1601,13 @@
 
             <!-- Ações -->
             <div class="action-buttons-mobile" style="display: flex; gap: var(--space); margin: var(--space-xl) var(--space-md); padding: var(--space); background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); flex-wrap: wrap; justify-content: center;">
-                <button class="btn btn-primary" data-action="send" data-target="pc" aria-label="Enviar mensagens" style="flex: 1; min-width: 140px;">
-                    <i class="fab fa-whatsapp"></i> Enviar
-                </button>
-                <button class="btn btn-success" data-action="save-template" data-target="pc" aria-label="Salvar template" style="flex: 1; min-width: 140px;">
+                <button class="btn btn-success" data-action="save-template" data-target="pc" aria-label="Salvar template" style="flex: 1; min-width: 120px;">
                     <i class="far fa-save"></i> Salvar
                 </button>
-                <button class="btn btn-secondary" data-action="test-message" data-target="pc" aria-label="Testar mensagem" style="flex: 1; min-width: 140px;">
+                <button class="btn btn-secondary" data-action="test-message" data-target="pc" aria-label="Testar mensagem" style="flex: 1; min-width: 120px;">
                     <i class="fas fa-vial"></i> Testar
                 </button>
-                <button class="btn btn-danger" id="cancel-send-pc" style="display: none; flex: 1; min-width: 140px;" aria-label="Cancelar envio">
+                <button class="btn btn-danger" id="cancel-send-pc" style="display: none; flex: 1; min-width: 120px;" aria-label="Cancelar envio">
                     <i class="fas fa-times"></i> Cancelar
                 </button>
             </div>
@@ -1443,31 +1629,11 @@
         <div class="situation-mobile" id="ut"></div>
     </main>
 
-    <!-- Footer Mobile -->
+    <!-- Footer Mobile Simplificado -->
     <footer class="mobile-footer">
-        <button class="footer-btn" id="menu-templates" aria-label="Templates">
-            <i class="fas fa-file-alt"></i>
-            <span>Templates</span>
-        </button>
-        <button class="footer-btn" id="menu-history" aria-label="Histórico">
-            <i class="fas fa-history"></i>
-            <span>Histórico</span>
-        </button>
-        <button class="footer-btn" id="menu-scheduled" aria-label="Agendados">
-            <i class="fas fa-clock"></i>
-            <span>Agendados</span>
-        </button>
-        <button class="footer-btn" id="menu-remarketing" aria-label="Remarketing">
-            <i class="fas fa-users-line"></i>
-            <span>Remarketing</span>
-        </button>
-        <button class="footer-btn" id="menu-export" aria-label="Exportar">
-            <i class="fas fa-file-export"></i>
-            <span>Exportar</span>
-        </button>
-        <button class="footer-btn" id="menu-settings" aria-label="Configurações">
-            <i class="fas fa-cog"></i>
-            <span>Config</span>
+        <button class="footer-action-btn" id="send-messages-btn" data-action="send" data-target="pc">
+            <i class="fab fa-whatsapp"></i>
+            Enviar Mensagens
         </button>
     </footer>
 
@@ -1527,18 +1693,6 @@
                         </button>
                     </div>
                 </div>
-                
-                <div class="form-group-mobile">
-                    <h3 style="margin-bottom: var(--space);">Limpar Dados</h3>
-                    <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
-                        <button class="btn btn-danger" id="clear-history-btn">
-                            <i class="fas fa-trash"></i> Limpar Histórico
-                        </button>
-                        <button class="btn btn-danger" id="clear-contacts-btn">
-                            <i class="fas fa-user-times"></i> Limpar Contatos
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1556,7 +1710,6 @@
                     <button class="btn btn-secondary btn-sm" id="filter-week">Semana</button>
                     <button class="btn btn-secondary btn-sm" id="filter-month">Mês</button>
                     <button class="btn btn-secondary btn-sm" id="filter-all">Todos</button>
-                    <button class="btn btn-danger btn-sm" id="clear-history-modal">Limpar</button>
                 </div>
                 <div class="history-list" id="history-list"></div>
                 <div class="text-center" id="history-empty" style="display: none; padding: var(--space-xl); color: var(--gray-500);">
@@ -1618,6 +1771,29 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-close="scheduled-modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Templates -->
+    <div class="modal-overlay" id="templates-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Gerenciar Templates</div>
+                <button class="modal-close" data-close="templates-modal" aria-label="Fechar modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-mobile">
+                    <h3 style="margin-bottom: var(--space);">Templates Salvos</h3>
+                    <div id="templates-list" class="history-list"></div>
+                    <div class="text-center" id="templates-empty" style="display: none; padding: var(--space-xl); color: var(--gray-500);">
+                        <i class="fas fa-file-alt fa-3x" style="margin-bottom: var(--space);"></i>
+                        <p>Nenhum template salvo</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close="templates-modal">Fechar</button>
             </div>
         </div>
     </div>
@@ -2123,10 +2299,12 @@
             updateStats();
             
             // Atualizar UI dos botões
-            document.querySelectorAll(`[data-action="send"]`).forEach(btn => {
-                btn.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar';
-                btn.disabled = false;
-            });
+            const sendBtn = document.getElementById('send-messages-btn');
+            if (sendBtn) {
+                sendBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar Mensagens';
+                sendBtn.disabled = false;
+            }
+            
             const cancelBtn = document.getElementById(`cancel-send-${situationId}`);
             if (cancelBtn) cancelBtn.style.display = 'none';
 
@@ -2196,7 +2374,7 @@
                 return { recipient, message };
             });
 
-            const sendBtn = document.querySelector(`[data-action="send"][data-target="${situationId}"]`);
+            const sendBtn = document.getElementById('send-messages-btn');
             const cancelBtn = document.getElementById(`cancel-send-${situationId}`);
             
             if (sendBtn) {
@@ -2215,7 +2393,7 @@
                     showStatus('Envio cancelado.', 'warning');
                     
                     if (sendBtn) {
-                        sendBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar';
+                        sendBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar Mensagens';
                         sendBtn.disabled = false;
                     }
                     
@@ -2311,17 +2489,6 @@
                                 <i class="fas fa-user input-icon-mobile"></i>
                                 <input type="text" id="client-name-${situation.id}" class="form-input-mobile" placeholder="João Silva, Maria Santos" aria-label="Nomes dos clientes">
                             </div>
-                            <div class="input-buttons" style="display: flex; gap: var(--space-sm); margin-top: var(--space-sm); flex-wrap: wrap;">
-                                <button class="btn btn-secondary btn-sm" data-action="import-contacts" data-target="${situation.id}">
-                                    <i class="fas fa-file-excel"></i> Importar
-                                </button>
-                                <button class="btn btn-secondary btn-sm" data-action="prepare-file" data-target="${situation.id}">
-                                    <i class="fas fa-file-import"></i> Preparar
-                                </button>
-                                <button class="btn btn-primary btn-sm" data-action="remarketing" data-target="${situation.id}">
-                                    <i class="fas fa-users-line"></i> Remarketing
-                                </button>
-                            </div>
                         </div>
 
                         <div class="form-group-mobile">
@@ -2394,16 +2561,13 @@
 
                     <!-- Ações -->
                     <div class="action-buttons-mobile" style="display: flex; gap: var(--space); margin: var(--space-xl) var(--space-md); padding: var(--space); background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); flex-wrap: wrap; justify-content: center;">
-                        <button class="btn btn-primary" data-action="send" data-target="${situation.id}" aria-label="Enviar mensagens" style="flex: 1; min-width: 140px;">
-                            <i class="fab fa-whatsapp"></i> Enviar
-                        </button>
-                        <button class="btn btn-success" data-action="save-template" data-target="${situation.id}" aria-label="Salvar template" style="flex: 1; min-width: 140px;">
+                        <button class="btn btn-success" data-action="save-template" data-target="${situation.id}" aria-label="Salvar template" style="flex: 1; min-width: 120px;">
                             <i class="far fa-save"></i> Salvar
                         </button>
-                        <button class="btn btn-secondary" data-action="test-message" data-target="${situation.id}" aria-label="Testar mensagem" style="flex: 1; min-width: 140px;">
+                        <button class="btn btn-secondary" data-action="test-message" data-target="${situation.id}" aria-label="Testar mensagem" style="flex: 1; min-width: 120px;">
                             <i class="fas fa-vial"></i> Testar
                         </button>
-                        <button class="btn btn-danger" id="cancel-send-${situation.id}" style="display: none; flex: 1; min-width: 140px;" aria-label="Cancelar envio">
+                        <button class="btn btn-danger" id="cancel-send-${situation.id}" style="display: none; flex: 1; min-width: 120px;" aria-label="Cancelar envio">
                             <i class="fas fa-times"></i> Cancelar
                         </button>
                     </div>
@@ -2879,14 +3043,15 @@
             if (!messageBox) return;
 
             const template = {
-                id: `template_${situationId}`,
+                id: `template_${situationId}_${Date.now()}`,
                 situationId,
                 content: messageBox.innerHTML,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                name: `Template ${situationId.toUpperCase()} - ${new Date().toLocaleDateString('pt-BR')}`
             };
 
             try {
-                await dbPut(STORES.TEMPLATES, template);
+                await dbAdd(STORES.TEMPLATES, template);
                 showStatus(`Template salvo para ${situationId.toUpperCase()}!`, 'success');
             } catch (error) {
                 showStatus(`Erro ao salvar template: ${error.message}`, 'error');
@@ -2895,11 +3060,12 @@
 
         async function loadTemplate(situationId) {
             try {
-                const template = await dbGet(STORES.TEMPLATES, `template_${situationId}`);
-                if (template && template.content) {
+                const templates = await dbGetAll(STORES.TEMPLATES, 'situationId', situationId);
+                if (templates.length > 0) {
+                    const latestTemplate = templates.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
                     const messageBox = document.getElementById(`message-${situationId}`);
-                    if (messageBox) {
-                        messageBox.innerHTML = template.content;
+                    if (messageBox && latestTemplate.content) {
+                        messageBox.innerHTML = latestTemplate.content;
                         updateCharCounter(situationId);
                     }
                 }
@@ -2908,10 +3074,84 @@
             }
         }
 
+        async function showTemplatesModal() {
+            const modal = document.getElementById('templates-modal');
+            modal.style.display = 'flex';
+            await loadTemplates();
+        }
+
+        async function loadTemplates() {
+            try {
+                const templates = await dbGetAll(STORES.TEMPLATES);
+                const templatesList = document.getElementById('templates-list');
+                const templatesEmpty = document.getElementById('templates-empty');
+                
+                if (templates.length === 0) {
+                    templatesList.innerHTML = '';
+                    templatesEmpty.style.display = 'block';
+                    return;
+                }
+                
+                templatesEmpty.style.display = 'none';
+                templatesList.innerHTML = templates.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                    .map(template => `
+                        <div class="history-item">
+                            <div class="history-header">
+                                <div class="history-client">${template.name || 'Template Sem Nome'}</div>
+                                <div class="history-phone">${template.situationId.toUpperCase()}</div>
+                            </div>
+                            <div class="history-message" style="max-height: 80px; overflow: hidden;">${cleanMessageText(template.content).substring(0, 200)}...</div>
+                            <div class="history-footer">
+                                <span class="history-situation">${new Date(template.timestamp).toLocaleDateString('pt-BR')}</span>
+                                <div class="client-actions">
+                                    <button class="btn btn-secondary btn-sm" onclick="applyTemplate('${template.id}', '${template.situationId}')">
+                                        <i class="fas fa-check"></i> Usar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteTemplate('${template.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+            } catch (error) {
+                console.error('Erro ao carregar templates:', error);
+            }
+        }
+
+        async function applyTemplate(templateId, situationId) {
+            try {
+                const template = await dbGet(STORES.TEMPLATES, templateId);
+                if (template && template.content) {
+                    const messageBox = document.getElementById(`message-${situationId}`);
+                    if (messageBox) {
+                        messageBox.innerHTML = template.content;
+                        updateCharCounter(situationId);
+                        showStatus(`Template aplicado para ${situationId.toUpperCase()}!`, 'success');
+                        document.getElementById('templates-modal').style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                showStatus('Erro ao aplicar template.', 'error');
+            }
+        }
+
+        async function deleteTemplate(templateId) {
+            if (confirm('Excluir este template?')) {
+                try {
+                    await dbDelete(STORES.TEMPLATES, templateId);
+                    showStatus('Template excluído!', 'success');
+                    await loadTemplates();
+                } catch (error) {
+                    showStatus('Erro ao excluir template.', 'error');
+                }
+            }
+        }
+
         // ============================================
         // FUNÇÕES DE IMPORT/EXPORT
         // ============================================
-        function triggerFileImport(situationId, isFullImport = false) {
+        function triggerFileImport(isFullImport = false) {
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = '.csv,.xlsx,.xls,.txt';
@@ -2943,8 +3183,8 @@
                         }
                     });
                     
-                    const nameInput = document.getElementById(`client-name-${situationId}`);
-                    const phoneInput = document.getElementById(`phone-${situationId}`);
+                    const nameInput = document.getElementById(`client-name-${currentSituation}`);
+                    const phoneInput = document.getElementById(`phone-${currentSituation}`);
                     
                     if (nameInput && phoneInput) {
                         nameInput.value = names.join(', ');
@@ -2957,6 +3197,82 @@
             };
             
             input.click();
+        }
+
+        // ============================================
+        // MANIPULAÇÃO DO MENU LATERAL
+        // ============================================
+        function toggleMenu() {
+            const menu = document.getElementById('side-menu');
+            const overlay = document.getElementById('menu-overlay');
+            const isActive = menu.classList.contains('active');
+            
+            if (isActive) {
+                menu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else {
+                menu.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function setupMenuListeners() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const menuOverlay = document.getElementById('menu-overlay');
+            
+            menuToggle.addEventListener('click', toggleMenu);
+            menuClose.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+            
+            // Configurar itens do menu
+            const menuItems = {
+                'menu-item-upload-logo': () => document.getElementById('logo-modal').style.display = 'flex',
+                'menu-item-dark-mode': toggleDarkMode,
+                'menu-item-backup': () => document.getElementById('backup-modal').style.display = 'flex',
+                'menu-item-templates': showTemplatesModal,
+                'menu-item-history': showHistoryModal,
+                'menu-item-scheduled': showScheduledModal,
+                'menu-item-remarketing': showRemarketingModal,
+                'menu-item-export': () => document.getElementById('backup-modal').style.display = 'flex',
+                'menu-item-clear-history': clearHistory,
+                'menu-item-clear-contacts': async () => {
+                    if (confirm('Limpar todos os contatos do remarketing?')) {
+                        try {
+                            await dbClear(STORES.REMARKETING);
+                            showStatus('Contatos limpos com sucesso!', 'success');
+                            updateStats();
+                        } catch (error) {
+                            showStatus('Erro ao limpar contatos.', 'error');
+                        }
+                    }
+                },
+                'menu-item-import-contacts': () => triggerFileImport(false)
+            };
+            
+            Object.keys(menuItems).forEach(itemId => {
+                const element = document.getElementById(itemId);
+                if (element) {
+                    element.addEventListener('click', function() {
+                        menuItems[itemId]();
+                        toggleMenu(); // Fecha o menu após clicar
+                    });
+                }
+            });
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const darkModeBtn = document.getElementById('menu-item-dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeBtn.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                darkModeBtn.innerHTML = '<i class="fas fa-moon"></i> Modo Escuro';
+                localStorage.setItem('darkMode', 'disabled');
+            }
         }
 
         // ============================================
@@ -2975,8 +3291,10 @@
             // Configuração inicial
             if (localStorage.getItem('darkMode') === 'enabled') {
                 document.body.classList.add('dark-mode');
-                document.getElementById('dark-mode-toggle').innerHTML = '<i class="fas fa-sun"></i>';
-                document.getElementById('dark-mode-toggle').title = 'Modo Claro';
+                const darkModeBtn = document.getElementById('menu-item-dark-mode');
+                if (darkModeBtn) {
+                    darkModeBtn.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+                }
             }
 
             // Gerar conteúdo para outras situações
@@ -2988,6 +3306,9 @@
             // Processar agendamentos a cada 30 segundos
             setInterval(processScheduledMessages, 30000);
             processScheduledMessages();
+
+            // Configurar menu lateral
+            setupMenuListeners();
 
             // ============================================
             // EVENT LISTENERS
@@ -3006,13 +3327,25 @@
                     if (situation) {
                         situation.classList.add('active');
                         loadTemplate(currentSituation);
+                        
+                        // Atualizar botão de envio no footer
+                        const sendBtn = document.getElementById('send-messages-btn');
+                        if (sendBtn) {
+                            sendBtn.setAttribute('data-target', currentSituation);
+                        }
                     }
                     
                     localStorage.setItem('activeTab', currentSituation);
                 });
             });
 
-            // Botões de ação
+            // Botão de enviar no footer
+            document.getElementById('send-messages-btn').addEventListener('click', function() {
+                const situationId = this.getAttribute('data-target');
+                handleSend(situationId);
+            });
+
+            // Botões de ação nos formulários
             document.addEventListener('click', function(e) {
                 const target = e.target.closest('[data-action]');
                 if (!target) return;
@@ -3021,23 +3354,11 @@
                 const situation = target.dataset.target || currentSituation;
 
                 switch(action) {
-                    case 'send':
-                        handleSend(situation);
-                        break;
                     case 'save-template':
                         saveTemplate(situation);
                         break;
                     case 'test-message':
                         testMessage(situation);
-                        break;
-                    case 'import-contacts':
-                        triggerFileImport(situation, false);
-                        break;
-                    case 'prepare-file':
-                        triggerFileImport(situation, true);
-                        break;
-                    case 'remarketing':
-                        loadRemarketingContacts().then(() => showRemarketingModal());
                         break;
                     case 'bold':
                     case 'italic':
@@ -3068,10 +3389,6 @@
             });
 
             // Upload de logo
-            document.getElementById('upload-logo-btn').addEventListener('click', function() {
-                document.getElementById('logo-modal').style.display = 'flex';
-            });
-
             document.getElementById('confirm-logo').addEventListener('click', function() {
                 const fileInput = document.getElementById('logo-upload');
                 const file = fileInput.files[0];
@@ -3093,52 +3410,18 @@
                 document.getElementById('logo-modal').style.display = 'none';
             });
 
-            // Dark mode
-            document.getElementById('dark-mode-toggle').addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-                if (document.body.classList.contains('dark-mode')) {
-                    this.innerHTML = '<i class="fas fa-sun"></i>';
-                    this.title = 'Modo Claro';
-                    localStorage.setItem('darkMode', 'enabled');
-                } else {
-                    this.innerHTML = '<i class="fas fa-moon"></i>';
-                    this.title = 'Modo Escuro';
-                    localStorage.setItem('darkMode', 'disabled');
-                }
-            });
-
             // Backup
-            document.getElementById('backup-btn').addEventListener('click', showBackupModal);
             document.getElementById('backup-all').addEventListener('click', () => createBackup('all'));
             document.getElementById('backup-contacts').addEventListener('click', () => createBackup('contacts'));
             document.getElementById('backup-history').addEventListener('click', () => createBackup('history'));
             document.getElementById('export-clients-text').addEventListener('click', exportClientsText);
             document.getElementById('restore-backup').addEventListener('click', restoreBackup);
-            document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
-            document.getElementById('clear-contacts-btn').addEventListener('click', async () => {
-                if (confirm('Limpar todos os contatos do remarketing?')) {
-                    try {
-                        await dbClear(STORES.REMARKETING);
-                        showStatus('Contatos limpos com sucesso!', 'success');
-                        updateStats();
-                    } catch (error) {
-                        showStatus('Erro ao limpar contatos.', 'error');
-                    }
-                }
-            });
-
-            // Footer menu
-            document.getElementById('menu-history').addEventListener('click', showHistoryModal);
-            document.getElementById('menu-scheduled').addEventListener('click', showScheduledModal);
-            document.getElementById('menu-remarketing').addEventListener('click', showRemarketingModal);
-            document.getElementById('menu-export').addEventListener('click', showBackupModal);
 
             // Filtros do histórico
             document.getElementById('filter-today').addEventListener('click', () => loadHistory('today'));
             document.getElementById('filter-week').addEventListener('click', () => loadHistory('week'));
             document.getElementById('filter-month').addEventListener('click', () => loadHistory('month'));
             document.getElementById('filter-all').addEventListener('click', () => loadHistory('all'));
-            document.getElementById('clear-history-modal').addEventListener('click', clearHistory);
             document.getElementById('export-history-btn').addEventListener('click', exportHistory);
             document.getElementById('export-contacts-btn').addEventListener('click', exportContacts);
 
@@ -3183,6 +3466,9 @@
             const tabToActivate = document.querySelector(`.tab-mobile[data-tab="${savedTab}"]`);
             if (tabToActivate) {
                 tabToActivate.click();
+            } else {
+                // Ativar primeira aba por padrão
+                document.querySelector('.tab-mobile').click();
             }
 
             loadTemplate(currentSituation);
@@ -3265,6 +3551,8 @@
         window.useContactForRemarketing = useContactForRemarketing;
         window.removeFromRemarketing = removeFromRemarketing;
         window.cancelScheduledMessage = cancelScheduledMessage;
+        window.applyTemplate = applyTemplate;
+        window.deleteTemplate = deleteTemplate;
 
     </script>
 </body>
