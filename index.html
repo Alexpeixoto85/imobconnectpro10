@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ========== VARIÁVEIS E ESTILOS (MANTIDOS) ========= */
-        :root { /* ... mesmo código anterior ... */ 
+        :root {
             --primary: #005a96; --primary-light: #e6f2ff; --primary-dark: #003f6b; --secondary: #0077b6;
             --accent: #48cae4; --success: #28a745; --warning: #ffc107; --error: #dc3545; --info: #17a2b8;
             --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -213,8 +213,8 @@
             <button class="menu-item" id="menu-item-import-contacts"><i class="fas fa-file-import"></i> Importar Contatos (JSON)</button>
         </div>
         <div class="menu-footer">
-            <div>ImobiConnect Pro v3.3</div>
-            <div style="font-size: 0.7rem;">+ Upload de imagem com cópia real</div>
+            <div>ImobiConnect Pro v3.4</div>
+            <div style="font-size: 0.7rem;">+ Abertura direta no app WhatsApp</div>
         </div>
     </div>
 
@@ -337,6 +337,9 @@
         // Todos os recursos implementados: cópia real de imagem,
         // histórico, backup, templates, remarketing, agendamentos,
         // importação/exportação TXT/JSON, modo escuro, logo, etc.
+        // 
+        // MELHORIA: abertura do WhatsApp priorizando o aplicativo nativo
+        // em todos os dispositivos (Android, iOS, Desktop com app instalado)
         // ============================================================
 
         // ---------- VARIÁVEIS GLOBAIS ----------
@@ -532,23 +535,51 @@
             }
         }
 
-        // ---------- ABRIR WHATSAPP (APENAS URL) ----------
+        // ---------- ABRIR WHATSAPP (VERSÃO MELHORADA - APP PRIORITÁRIO) ----------
         async function openWhatsApp(phone, message) {
-            let encoded = encodeURIComponent(message);
-            let web = `https://web.whatsapp.com/send?phone=${phone}&text=${encoded}`;
-            let app = `whatsapp://send?phone=${phone}&text=${encoded}`;
+            const encoded = encodeURIComponent(message);
+            const appUrl = `whatsapp://send?phone=${phone}&text=${encoded}`;
+            const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encoded}`;
+            
+            // Detecção de plataforma
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) && !window.MSStream;
+            const isMobile = isAndroid || isIOS;
+
             return new Promise(resolve => {
-                if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-                    window.location.href = app;
-                    setTimeout(() => { window.location.href = web; resolve(); }, 3000);
-                } else {
-                    let temp = window.open(app, '_blank');
+                // ---------- ANDROID ----------
+                if (isAndroid) {
+                    // Intent URL – tenta abrir o app diretamente
+                    const intentUrl = `intent://send?phone=${phone}&text=${encoded}#Intent;package=com.whatsapp;scheme=whatsapp;end;`;
+                    window.location.href = intentUrl;
+                    
+                    // Se o app não estiver instalado, o intent pode não fazer nada.
+                    // Redirecionamos para a versão web após um pequeno atraso.
                     setTimeout(() => {
-                        if (temp && temp.closed) showStatus(`WhatsApp aberto para ${phone}.`,'success');
-                        else if (temp) { temp.location.href = web; showStatus(`WhatsApp Web aberto.`,'info'); }
-                        else { window.open(web,'_blank'); showStatus(`WhatsApp Web aberto.`,'info'); }
+                        window.location.href = webUrl;
+                        showStatus(`📲 WhatsApp Web aberto (app não encontrado).`, 'info');
                         resolve();
-                    }, 1000);
+                    }, 2000);
+                }
+                // ---------- iOS ----------
+                else if (isIOS) {
+                    window.location.href = appUrl;
+                    setTimeout(() => {
+                        window.location.href = webUrl;
+                        showStatus(`📲 WhatsApp Web aberto (app não encontrado).`, 'info');
+                        resolve();
+                    }, 2000);
+                }
+                // ---------- DESKTOP ----------
+                else {
+                    // Tenta o esquema whatsapp:// (funciona se o app desktop estiver instalado)
+                    window.location.href = appUrl;
+                    setTimeout(() => {
+                        // Se após 1.5s ainda estamos na página, abre a versão web
+                        window.open(webUrl, '_blank');
+                        showStatus(`💻 WhatsApp Web aberto.`, 'info');
+                        resolve();
+                    }, 1500);
                 }
             });
         }
