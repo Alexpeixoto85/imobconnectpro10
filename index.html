@@ -6,167 +6,135 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#005a96">
-    <title>ImobiConnect Pro Mobile</title>
+    <title>ImobiConnect Pro - Anti‑Spam</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== VARIÁVEIS E RESET ========= */
+        /* ========== MESMOS ESTILOS DO ORIGINAL (MANTIDOS) ========= */
         :root {
             --primary: #005a96; --primary-light: #e6f2ff; --primary-dark: #003f6b; --secondary: #0077b6;
             --accent: #48cae4; --success: #28a745; --warning: #ffc107; --error: #dc3545; --info: #17a2b8;
             --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #0096c7 100%);
+            --gradient-success: linear-gradient(135deg, var(--success) 0%, #1e7e34 100%);
+            --gradient-warning: linear-gradient(135deg, var(--warning) 0%, #e0a800 100%);
+            --gradient-error: linear-gradient(135deg, var(--error) 0%, #c82333 100%);
             --gray-50: #f8f9fa; --gray-100: #f1f3f5; --gray-200: #e9ecef; --gray-300: #dee2e6;
             --gray-400: #adb5bd; --gray-500: #6c757d; --gray-600: #495057; --gray-700: #343a40;
             --gray-800: #212529; --gray-900: #121416;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.08); --shadow: 0 4px 16px rgba(0,0,0,0.12);
             --shadow-md: 0 6px 24px rgba(0,0,0,0.15); --shadow-lg: 0 10px 40px rgba(0,0,0,0.2);
+            --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
             --radius-sm: 8px; --radius: 12px; --radius-lg: 16px; --radius-xl: 20px;
             --space-xs: 6px; --space-sm: 12px; --space: 16px; --space-md: 20px; --space-lg: 24px;
-            --space-xl: 32px; --space-2xl: 40px;
+            --space-xl: 32px; --space-2xl: 40px; --space-3xl: 48px;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-            --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem;
-            --touch-height: 48px; --touch-height-lg: 56px;
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem;
+            --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem; --text-4xl: 2.25rem;
+            --touch-height-sm: 44px; --touch-height: 48px; --touch-height-lg: 56px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html, body { height: 100%; font-family: 'Inter', sans-serif; font-size: 16px; background: var(--gray-50); color: var(--gray-800); overscroll-behavior: none; -webkit-overflow-scrolling: touch; }
-        body { display: flex; flex-direction: column; overflow: hidden; position: fixed; width: 100%; height: 100%; }
-        /* ========== SPLASH SCREEN ========= */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--gradient-primary); z-index: 3000; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; transition: opacity 0.5s ease; pointer-events: none;
-        }
-        #splash-screen.hidden { opacity: 0; }
-        .splash-icon { font-size: 5rem; margin-bottom: var(--space); animation: pulse 1.5s infinite; }
-        .splash-text { font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.02em; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        html, body { height: 100%; font-family: 'Inter', sans-serif; font-size: 16px; background-color: var(--gray-50); color: var(--gray-800); overscroll-behavior: none; -webkit-overflow-scrolling: touch; }
+        body { display: flex; flex-direction: column; padding-bottom: 0; overflow-x: hidden; }
         /* ========== HEADER ========= */
-        .mobile-header {
-            background: var(--gradient-primary); color: white; padding: var(--space) var(--space-md); box-shadow: var(--shadow-md); position: relative; z-index: 1000; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); padding-top: env(safe-area-inset-top, var(--space)); flex-shrink: 0;
-        }
-        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
+        .mobile-header { background: var(--gradient-primary); color: white; padding: var(--space) var(--space-md); box-shadow: var(--shadow-md); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); padding-top: env(safe-area-inset-top, var(--space)); flex-shrink: 0; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); position: relative; }
         .header-left { display: flex; align-items: center; gap: var(--space-xs); flex: 1; }
-        .back-button { width: 44px; height: 44px; border-radius: var(--radius); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); font-size: 1.3rem; }
+        .back-button { width: 44px; height: 44px; border-radius: var(--radius); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition); font-size: 1.3rem; margin-right: var(--space-xs); }
+        .back-button:hover, .back-button:active { background: rgba(255,255,255,0.25); transform: translateY(-2px); box-shadow: var(--shadow); }
         .logo-mobile { display: flex; align-items: center; gap: var(--space-sm); flex: 1; }
-        .logo-img-mobile { width: 40px; height: 40px; border-radius: var(--radius); border: 2px solid var(--accent); object-fit: cover; background: white; box-shadow: var(--shadow); display: none; }
+        .logo-img-mobile { width: 48px; height: 48px; border-radius: var(--radius); border: 2px solid var(--accent); object-fit: cover; background: white; box-shadow: var(--shadow); display: none; }
         .app-title h1 { font-size: var(--text-lg); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
         .app-title p { font-size: var(--text-xs); opacity: 0.9; font-weight: 400; }
-        .hamburger-menu { width: 44px; height: 44px; border-radius: var(--radius); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.3rem; }
+        .hamburger-menu { width: 44px; height: 44px; border-radius: var(--radius); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition); font-size: 1.3rem; flex-shrink: 0; }
         /* ========== STATS BAR ========= */
-        .stats-bar {
-            background: rgba(0,0,0,0.15); border-radius: var(--radius); padding: var(--space-xs) var(--space); display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-xs); font-size: var(--text-xs); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
-        }
-        .stat-item { display: flex; flex-direction: column; align-items: center; padding: 6px 2px; }
-        .stat-value { font-size: var(--text-base); font-weight: 800; color: var(--accent); line-height: 1.2; }
-        .stat-label { font-size: 0.7rem; opacity: 0.9; font-weight: 500; }
-        /* ========== CONTAINER PRINCIPAL ========= */
-        #app-pages {
-            flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; position: relative; scroll-behavior: smooth; background: var(--gray-50);
-        }
-        .page { display: none; animation: fadeIn 0.25s ease-out; will-change: opacity; }
+        .stats-bar { background: rgba(0,0,0,0.15); border-radius: var(--radius); padding: var(--space-sm) var(--space); display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); font-size: var(--text-xs); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .stat-item { display: flex; flex-direction: column; align-items: center; padding: 8px 4px; position: relative; overflow: hidden; }
+        .stat-value { font-size: var(--text-lg); font-weight: 800; color: var(--accent); text-shadow: 0 2px 4px rgba(0,0,0,0.2); line-height: 1; }
+        .stat-label { font-size: var(--text-xs); opacity: 0.9; font-weight: 500; margin-top: 2px; }
+        /* ========== PAGES CONTAINER ========= */
+        #app-pages { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: var(--space); position: relative; }
+        .page { display: none; animation: fadeIn 0.25s ease-out; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         /* ========== HOME PAGE ========= */
-        .home-grid { display: flex; flex-direction: column; gap: var(--space); padding: var(--space-md) var(--space-md) calc(var(--space-2xl) + 60px); }
-        .situation-card {
-            background: white; border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: var(--shadow); border: 1px solid var(--gray-200); display: flex; align-items: center; gap: var(--space-md); transition: transform 0.15s, box-shadow 0.15s; cursor: pointer; touch-action: manipulation;
-        }
-        .situation-card:active { transform: scale(0.98); background: var(--gray-50); }
+        .home-grid { display: flex; flex-direction: column; gap: var(--space); padding: var(--space-md); }
+        .situation-card { background: white; border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: var(--shadow); border: 1px solid var(--gray-200); display: flex; align-items: center; gap: var(--space-md); transition: all var(--transition); cursor: pointer; }
+        .situation-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
         .card-icon { width: 56px; height: 56px; border-radius: var(--radius); background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; flex-shrink: 0; }
         .card-info { flex: 1; }
         .card-title { font-size: var(--text-lg); font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
         .card-desc { font-size: var(--text-sm); color: var(--gray-600); line-height: 1.4; }
         .card-action { color: var(--primary); font-size: 1.2rem; }
         /* ========== PÁGINAS DE SITUAÇÃO ========= */
-        .situation-header-mobile { background: white; border-radius: var(--radius-lg); padding: var(--space-lg); margin: var(--space-md) var(--space-md) 0; box-shadow: var(--shadow); border: 1px solid var(--gray-200); }
+        .situation-header-mobile { background: white; border-radius: var(--radius-lg); padding: var(--space-lg); margin: var(--space-md); box-shadow: var(--shadow); border: 1px solid var(--gray-200); }
         .situation-header-top { display: flex; align-items: center; gap: var(--space); }
         .situation-icon-mobile { width: 48px; height: 48px; border-radius: var(--radius); background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; }
         .situation-title-mobile h3 { font-size: var(--text-lg); font-weight: 700; color: var(--gray-900); margin-bottom: 2px; }
         .situation-title-mobile p { font-size: var(--text-sm); color: var(--gray-600); }
-        .form-section {
-            background: white; border-radius: var(--radius-lg); padding: var(--space-lg); margin: var(--space-md) var(--space-md) 0; box-shadow: var(--shadow); border: 1px solid var(--gray-200);
-        }
-        .form-section:last-of-type { margin-bottom: calc(var(--space-2xl) + 60px); }
+        .form-section { background: white; border-radius: var(--radius-lg); padding: var(--space-lg); margin: var(--space-md); box-shadow: var(--shadow); border: 1px solid var(--gray-200); transition: all var(--transition); }
         .form-section-title { font-size: var(--text-base); font-weight: 700; color: var(--gray-900); margin-bottom: var(--space-lg); padding-bottom: var(--space-sm); border-bottom: 2px solid var(--gray-100); display: flex; align-items: center; gap: var(--space-xs); }
         .form-group-mobile { margin-bottom: var(--space-lg); }
         .form-label-mobile { display: block; font-size: var(--text-sm); font-weight: 600; color: var(--gray-800); margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 6px; }
         .input-group-mobile { position: relative; }
         .input-icon-mobile { position: absolute; left: var(--space); top: 50%; transform: translateY(-50%); color: var(--gray-500); z-index: 1; font-size: 1.1rem; }
-        .form-input-mobile {
-            width: 100%; padding: var(--space) var(--space) var(--space) 44px; border: 2px solid var(--gray-300); border-radius: var(--radius); font-size: var(--text-base); background: white; transition: border-color 0.15s, box-shadow 0.15s; font-family: 'Inter', sans-serif; font-weight: 500; min-height: var(--touch-height); -webkit-appearance: none; appearance: none;
-        }
-        .form-input-mobile:focus { outline: none; border-color: var(--primary); background: var(--gray-50); box-shadow: 0 0 0 4px rgba(0,90,150,0.15); }
+        .form-input-mobile { width: 100%; padding: var(--space) var(--space) var(--space) 44px; border: 2px solid var(--gray-300); border-radius: var(--radius); font-size: var(--text-base); background: white; transition: all var(--transition); font-family: 'Inter', sans-serif; font-weight: 500; min-height: var(--touch-height); -webkit-appearance: none; appearance: none; }
+        .form-input-mobile:focus { outline: none; border-color: var(--primary); background: var(--gray-50); box-shadow: 0 0 0 4px rgba(0,90,150,0.15); transform: translateY(-1px); }
         .select-input-mobile { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23005a96' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right var(--space) center; background-size: 20px; padding-right: 48px; }
         .message-toolbar-mobile { display: flex; gap: var(--space-xs); margin-bottom: var(--space); flex-wrap: wrap; padding: var(--space-sm); background: var(--gray-100); border-radius: var(--radius); }
-        .message-box-mobile {
-            width: 100%; min-height: 140px; max-height: 300px; padding: var(--space); border: 2px solid var(--gray-300); border-radius: var(--radius); font-size: var(--text-base); line-height: 1.6; resize: vertical; background: white; color: var(--gray-900); font-family: 'Inter', sans-serif; transition: border-color 0.15s; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        }
+        .message-box-mobile { width: 100%; min-height: 140px; max-height: 300px; padding: var(--space); border: 2px solid var(--gray-300); border-radius: var(--radius); font-size: var(--text-base); line-height: 1.6; resize: vertical; background: white; color: var(--gray-900); font-family: 'Inter', sans-serif; transition: all var(--transition); overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .message-box-mobile:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,90,150,0.15); }
         .message-box-mobile[contenteditable="true"]:empty::before { content: attr(data-placeholder); color: var(--gray-400); }
         .char-counter { text-align: right; font-size: var(--text-sm); color: var(--gray-500); margin-top: var(--space-xs); font-weight: 500; }
         .char-counter.limit { color: var(--error); font-weight: 700; }
-        .action-buttons-mobile { display: flex; gap: var(--space); margin: var(--space-xl) var(--space-md); padding: var(--space); background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); flex-wrap: wrap; justify-content: center; position: sticky; bottom: 70px; z-index: 10; }
-        .btn {
-            padding: var(--space-sm) var(--space-lg); border: none; border-radius: var(--radius); font-size: var(--text-base); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-sm); transition: background 0.15s, transform 0.1s; min-height: var(--touch-height); letter-spacing: -0.01em; touch-action: manipulation; user-select: none;
-        }
-        .btn:active { transform: scale(0.97); }
+        .action-buttons-mobile { display: flex; gap: var(--space); margin: var(--space-xl) var(--space-md); padding: var(--space); background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); flex-wrap: wrap; justify-content: center; }
+        .btn { padding: var(--space-sm) var(--space-lg); border: none; border-radius: var(--radius); font-size: var(--text-base); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-sm); transition: all var(--transition); min-height: var(--touch-height); letter-spacing: -0.01em; position: relative; overflow: hidden; text-align: center; user-select: none; }
         .btn-primary { background: var(--gradient-primary); color: white; box-shadow: var(--shadow); }
         .btn-success { background: var(--gradient-success); color: white; box-shadow: var(--shadow); }
         .btn-secondary { background: var(--gray-100); color: var(--gray-800); border: 2px solid var(--gray-300); }
         .btn-danger { background: var(--gradient-error); color: white; box-shadow: var(--shadow); }
-        .btn-sm { padding: 10px 14px; font-size: var(--text-sm); min-height: 44px; border-radius: var(--radius-sm); }
+        .btn-sm { padding: 10px 14px; font-size: var(--text-sm); min-height: var(--touch-height-sm); border-radius: var(--radius-sm); }
+        .btn-block { width: 100%; }
         .file-upload-group { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
         .file-input-mobile { flex: 1; padding: 12px; border: 2px solid var(--gray-300); border-radius: var(--radius); background: white; font-size: var(--text-sm); min-height: var(--touch-height); }
+        .file-name { font-size: var(--text-xs); color: var(--gray-600); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .image-preview { margin-top: var(--space-sm); max-width: 100%; max-height: 120px; border-radius: var(--radius); border: 1px solid var(--gray-300); display: none; object-fit: cover; }
         .image-preview.visible { display: block; }
-        /* ========== BOTTOM NAVIGATION ========= */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--gray-200); display: flex; justify-content: space-around; align-items: center; padding: var(--space-xs) var(--space) env(safe-area-inset-bottom, var(--space-xs)); z-index: 1000; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); height: 60px;
-        }
-        .nav-item {
-            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--gray-600); font-size: var(--text-xs); font-weight: 500; transition: color 0.15s; cursor: pointer; touch-action: manipulation; padding: var(--space-xs) 0;
-        }
-        .nav-item i { font-size: 1.4rem; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item span { font-size: 0.7rem; }
+        /* ========== FOOTER ========= */
+        .mobile-footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid rgba(0,0,0,0.1); padding: var(--space-sm) var(--space); display: flex; justify-content: center; align-items: center; z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px)); transition: transform 0.3s ease, opacity 0.3s ease; }
+        .mobile-footer.hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }
+        .footer-action-btn { padding: var(--space-sm) var(--space); background: var(--gradient-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 700; font-size: var(--text-base); cursor: pointer; transition: all var(--transition); display: flex; align-items: center; gap: var(--space-sm); min-height: var(--touch-height-lg); box-shadow: var(--shadow); flex: 1; justify-content: center; max-width: 90%; }
+        .footer-action-btn:disabled { opacity: 0.6; pointer-events: none; }
         /* ========== SIDE MENU ========= */
-        .side-menu {
-            position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: white; box-shadow: var(--shadow-lg); z-index: 1002; transition: transform 0.3s ease; display: flex; flex-direction: column; padding: var(--space-xl) var(--space) var(--space); overflow-y: auto; -webkit-overflow-scrolling: touch; border-left: 1px solid var(--gray-200);
-        }
+        .side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: white; box-shadow: var(--shadow-lg); z-index: 1002; transition: transform var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: var(--space-xl) var(--space) var(--space); overflow-y: auto; -webkit-overflow-scrolling: touch; border-left: 1px solid var(--gray-200); }
         .side-menu.active { transform: translateX(-300px); }
         .side-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); padding-bottom: var(--space); border-bottom: 2px solid var(--gray-100); }
         .side-menu-title { font-size: var(--text-xl); font-weight: 800; color: var(--gray-900); }
         .menu-close { width: 36px; height: 36px; border-radius: var(--radius); background: var(--gray-100); border: none; color: var(--gray-700); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .menu-items { display: flex; flex-direction: column; gap: var(--space-xs); flex: 1; }
-        .menu-item {
-            padding: var(--space) var(--space); border-radius: var(--radius); background: var(--gray-50); border: 2px solid transparent; color: var(--gray-800); font-weight: 600; font-size: var(--text-base); cursor: pointer; transition: background 0.15s; display: flex; align-items: center; gap: var(--space); text-align: left; min-height: var(--touch-height);
-        }
+        .menu-item { padding: var(--space) var(--space); border-radius: var(--radius); background: var(--gray-50); border: 2px solid transparent; color: var(--gray-800); font-weight: 600; font-size: var(--text-base); cursor: pointer; transition: all var(--transition); display: flex; align-items: center; gap: var(--space); text-align: left; min-height: var(--touch-height); }
         .menu-item i { width: 24px; text-align: center; font-size: 1.1rem; color: var(--primary); }
         .menu-item-danger { background: rgba(220, 53, 69, 0.08); color: var(--error); }
-        .menu-divider { height: 1px; background: var(--gray-200); margin: var(--space) 0; }
+        .menu-divider { height: 1px; background: var(--gray-200); margin: var(--space) 0; width: 100%; }
         .menu-footer { margin-top: auto; padding-top: var(--space); border-top: 1px solid var(--gray-200); font-size: var(--text-xs); color: var(--gray-500); text-align: center; }
-        .menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1001; display: none; }
+        .menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1001; display: none; animation: fadeIn 0.3s ease-out; }
         .menu-overlay.active { display: block; }
         /* ========== MODAIS ========= */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; padding: var(--space); backdrop-filter: blur(10px); }
-        .modal-content { background: white; border-radius: var(--radius-xl); width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); }
-        @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; padding: var(--space); animation: fadeIn 0.3s ease-out; backdrop-filter: blur(10px); }
+        .modal-content { background: white; border-radius: var(--radius-xl); width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); }
         .modal-header { padding: var(--space-lg); border-bottom: 2px solid var(--gray-100); display: flex; align-items: center; justify-content: space-between; background: var(--gradient-primary); color: white; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
         .modal-title { font-size: var(--text-xl); font-weight: 800; color: white; }
         .modal-close { background: rgba(255,255,255,0.2); border: none; color: white; font-size: 1.5rem; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); }
-        .modal-body { padding: var(--space-lg); }
+        .modal-body { padding: var(--space-lg); flex: 1; }
         .modal-footer { padding: var(--space-lg); border-top: 2px solid var(--gray-100); display: flex; gap: var(--space-sm); flex-wrap: wrap; }
-        /* ========== TOAST ========= */
-        #toast-container {
-            position: fixed; bottom: 80px; left: var(--space); right: var(--space); z-index: 3000; display: flex; flex-direction: column; gap: var(--space-sm); pointer-events: none;
-        }
-        .toast {
-            background: var(--gray-800); color: white; padding: var(--space) var(--space-lg); border-radius: 50px; font-weight: 500; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: space-between; gap: var(--space); animation: toastIn 0.2s ease; pointer-events: auto; max-width: 100%; backdrop-filter: blur(10px);
-        }
-        .toast.success { background: var(--success); }
-        .toast.error { background: var(--error); }
-        .toast.warning { background: var(--warning); color: var(--gray-900); }
-        .toast button { background: rgba(255,255,255,0.2); border: none; color: currentColor; font-weight: 600; padding: var(--space-xs) var(--space-sm); border-radius: 40px; cursor: pointer; }
-        @keyframes toastIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        /* ========== HISTÓRICO, CONTATOS ========= */
+        /* ========== CONFIGURAÇÕES (NOVO) ========= */
+        .settings-group { background: var(--gray-50); border-radius: var(--radius); padding: var(--space); margin-bottom: var(--space); border: 1px solid var(--gray-200); }
+        .settings-label { font-weight: 600; margin-bottom: var(--space-xs); display: block; }
+        .settings-input { width: 100%; padding: var(--space-sm); border: 2px solid var(--gray-300); border-radius: var(--radius); font-size: var(--text-base); }
+        .range-value { display: inline-block; margin-left: var(--space-sm); font-weight: 600; color: var(--primary); }
+        .checkbox-label { display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; }
+        /* ========== HISTÓRICO, CONTATOS, ETC ========= */
         .history-item, .client-card { background: var(--gray-50); border-radius: var(--radius); padding: var(--space); margin-bottom: var(--space-sm); border: 1px solid var(--gray-200); }
         .history-header, .client-info { display: flex; justify-content: space-between; margin-bottom: var(--space-xs); }
         .history-client, .client-name { font-weight: 700; color: var(--gray-900); }
@@ -177,44 +145,23 @@
         .client-avatar { width: 40px; height: 40px; border-radius: 100px; background: var(--gradient-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: var(--space-sm); }
         .client-details { flex: 1; }
         .client-actions { display: flex; gap: var(--space-xs); }
-        /* ========== DARK MODE AUTOMÁTICO ========= */
-        @media (prefers-color-scheme: dark) {
-            body:not(.light-mode) { background: var(--gray-900); color: var(--gray-100); }
-            body:not(.light-mode) .form-section, body:not(.light-mode) .situation-header-mobile,
-            body:not(.light-mode) .situation-card, body:not(.light-mode) .side-menu,
-            body:not(.light-mode) .modal-content, body:not(.light-mode) .history-item,
-            body:not(.light-mode) .client-card, body:not(.light-mode) .settings-group,
-            body:not(.light-mode) .action-buttons-mobile, body:not(.light-mode) .bottom-nav {
-                background: var(--gray-800); border-color: var(--gray-700); color: var(--gray-100);
-            }
-            body:not(.light-mode) .menu-item { background: var(--gray-700); color: var(--gray-100); }
-            body:not(.light-mode) .card-title, body:not(.light-mode) .form-section-title,
-            body:not(.light-mode) .situation-title-mobile h3 { color: white; }
-        }
-        body.dark-mode { background: var(--gray-900); color: var(--gray-100); }
-        body.dark-mode .form-section, body.dark-mode .situation-header-mobile,
-        body.dark-mode .situation-card, body.dark-mode .side-menu,
-        body.dark-mode .modal-content, body.dark-mode .history-item,
-        body.dark-mode .client-card, body.dark-mode .settings-group,
-        body.dark-mode .action-buttons-mobile, body.dark-mode .bottom-nav {
-            background: var(--gray-800); border-color: var(--gray-700); color: var(--gray-100);
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        body.dark-mode { background-color: var(--gray-900); color: var(--gray-100); }
+        body.dark-mode .form-section, body.dark-mode .situation-header-mobile, body.dark-mode .situation-card,
+        body.dark-mode .side-menu, body.dark-mode .modal-content, body.dark-mode .history-item,
+        body.dark-mode .client-card, body.dark-mode .settings-group { background: var(--gray-800); border-color: var(--gray-700); color: var(--gray-100); }
         body.dark-mode .menu-item { background: var(--gray-700); color: var(--gray-100); }
-        /* ========== PROGRESSO E STATUS ========= */
-        .progress-container-mobile { position: fixed; top: 120px; left: var(--space); right: var(--space); height: 8px; background: var(--gray-200); border-radius: 100px; overflow: hidden; z-index: 2000; display: none; }
-        .progress-bar-mobile { height: 100%; background: var(--gradient-primary); width: 0%; transition: width 0.2s; }
-        /* ========== AJUSTES DE TOQUE ========= */
-        [contenteditable=true]:empty:before { content: attr(data-placeholder); color: var(--gray-400); }
-        .pull-to-refresh-indicator { text-align: center; padding: var(--space); color: var(--primary); display: none; }
+        .status-message-mobile { position: fixed; top: 80px; left: var(--space); right: var(--space); z-index: 3000; padding: var(--space); border-radius: var(--radius); background: var(--primary); color: white; font-weight: 600; box-shadow: var(--shadow-lg); display: none; }
+        .status-message-mobile.success { background: var(--success); }
+        .status-message-mobile.error { background: var(--error); }
+        .status-message-mobile.warning { background: var(--warning); color: var(--gray-900); }
+        .progress-container-mobile { position: fixed; top: 140px; left: var(--space); right: var(--space); height: 10px; background: var(--gray-200); border-radius: 100px; overflow: hidden; z-index: 2000; display: none; }
+        .progress-bar-mobile { height: 100%; background: var(--gradient-primary); width: 0%; transition: width 0.3s ease; }
+        @supports (-webkit-touch-callout: none) { body { padding-bottom: 0; } .mobile-footer { padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom)); } }
     </style>
 </head>
 <body>
-    <!-- SPLASH SCREEN -->
-    <div id="splash-screen">
-        <div class="splash-icon"><i class="fas fa-home"></i></div>
-        <div class="splash-text">ImobiConnect Pro</div>
-    </div>
-
     <!-- HEADER -->
     <header class="mobile-header">
         <div class="header-top">
@@ -226,34 +173,22 @@
                     <img id="logo-mobile" class="logo-img-mobile" src="" alt="Logo">
                     <div class="app-title">
                         <h1 id="header-title">ImobiConnect Pro</h1>
-                        <p id="header-subtitle">Experiência Mobile</p>
+                        <p id="header-subtitle">Sistema Anti‑Spam</p>
                     </div>
                 </div>
             </div>
-            <button class="hamburger-menu" id="menu-toggle" aria-label="Menu">
+            <button class="hamburger-menu" id="menu-toggle" aria-label="Abrir menu">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-        <div class="stats-bar" id="stats-bar">
+        <div class="stats-bar">
             <div class="stat-item"><span class="stat-value" id="daily-count">0</span><span class="stat-label">Hoje</span></div>
             <div class="stat-item"><span class="stat-value" id="total-count">0</span><span class="stat-label">Total</span></div>
             <div class="stat-item"><span class="stat-value" id="scheduled-count">0</span><span class="stat-label">Agend.</span></div>
             <div class="stat-item"><span class="stat-value" id="contacts-count">0</span><span class="stat-label">Contatos</span></div>
-            <div class="stat-item"><span class="stat-value" id="sent-today-count">0</span><span class="stat-label">Hoje Env.</span></div>
+            <div class="stat-item"><span class="stat-value" id="sent-today-count">0</span><span class="stat-label">Enviados Hoje</span></div>
         </div>
     </header>
-
-    <!-- PÁGINAS -->
-    <div id="app-pages" class="pull-to-refresh">
-        <div class="pull-to-refresh-indicator"><i class="fas fa-spinner fa-spin"></i> Atualizando...</div>
-        <!-- As páginas serão inseridas via JS -->
-    </div>
-
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav" id="bottom-nav">
-        <div class="nav-item active" data-nav="home"><i class="fas fa-home"></i><span>Início</span></div>
-        <!-- Itens das situações serão inseridos dinamicamente -->
-    </nav>
 
     <!-- SIDE MENU -->
     <div class="menu-overlay" id="menu-overlay"></div>
@@ -262,24 +197,47 @@
             <div class="side-menu-title">Menu</div>
             <button class="menu-close" id="menu-close"><i class="fas fa-times"></i></button>
         </div>
-        <div class="menu-items" id="menu-items-container">
-            <!-- Itens do menu serão preenchidos via JS -->
+        <div class="menu-items">
+            <button class="menu-item" id="menu-item-home"><i class="fas fa-home"></i> Página Inicial</button>
+            <div class="menu-divider"></div>
+            <div style="padding: var(--space-sm) var(--space); font-weight: 700; color: var(--primary);">Situações</div>
+            <div id="menu-situations-container"></div>
+            <div class="menu-divider"></div>
+            <button class="menu-item" id="menu-item-settings"><i class="fas fa-sliders-h"></i> Configurações Anti‑Spam</button>
+            <button class="menu-item" id="menu-item-import-txt"><i class="fas fa-file-import"></i> Importar Contatos (TXT)</button>
+            <button class="menu-item" id="menu-item-export-txt"><i class="fas fa-file-export"></i> Exportar Contatos Carregados</button>
+            <button class="menu-item" id="menu-item-export-remarketing-txt"><i class="fas fa-address-book"></i> Exportar Contatos Salvos (TXT)</button>
+            <div class="menu-divider"></div>
+            <button class="menu-item" id="menu-item-upload-logo"><i class="fas fa-upload"></i> Carregar Logo</button>
+            <button class="menu-item" id="menu-item-dark-mode"><i class="fas fa-moon"></i> Modo Escuro</button>
+            <button class="menu-item" id="menu-item-backup"><i class="fas fa-database"></i> Backup & Restauração</button>
+            <button class="menu-item" id="menu-item-templates"><i class="fas fa-file-alt"></i> Gerenciar Templates</button>
+            <button class="menu-item" id="menu-item-history"><i class="fas fa-history"></i> Histórico de Envios</button>
+            <button class="menu-item" id="menu-item-scheduled"><i class="fas fa-clock"></i> Mensagens Agendadas</button>
+            <button class="menu-item" id="menu-item-remarketing"><i class="fas fa-users-line"></i> Remarketing</button>
+            <button class="menu-item" id="menu-item-export"><i class="fas fa-file-export"></i> Exportar Dados</button>
+            <div class="menu-divider"></div>
+            <button class="menu-item menu-item-danger" id="menu-item-clear-history"><i class="fas fa-trash"></i> Limpar Histórico</button>
+            <button class="menu-item menu-item-danger" id="menu-item-clear-contacts"><i class="fas fa-user-times"></i> Limpar Contatos</button>
+            <button class="menu-item" id="menu-item-import-contacts"><i class="fas fa-file-import"></i> Importar Contatos (JSON)</button>
         </div>
         <div class="menu-footer">
-            <div>ImobiConnect Pro v5.0</div>
-            <div style="font-size: 0.7rem;">Toque e segurança</div>
+            <div>ImobiConnect Pro v4.0 - Anti‑Spam</div>
+            <div style="font-size: 0.7rem;">Respeite as políticas do WhatsApp</div>
         </div>
     </div>
 
-    <!-- TOAST CONTAINER -->
-    <div id="toast-container"></div>
+    <!-- PÁGINAS -->
+    <div id="app-pages"></div>
 
-    <!-- PROGRESS BAR -->
-    <div class="progress-container-mobile" id="progress-container">
-        <div class="progress-bar-mobile" id="progress-bar"></div>
-    </div>
+    <!-- FOOTER (ENVIO) -->
+    <footer id="mobile-footer" class="mobile-footer hidden">
+        <button class="footer-action-btn" id="send-messages-btn" data-target="">
+            <i class="fab fa-whatsapp"></i> Enviar Mensagens
+        </button>
+    </footer>
 
-    <!-- MODAIS (mantidos do original, apenas organizados) -->
+    <!-- MODAIS -->
     <div class="modal-overlay" id="logo-modal">
         <div class="modal-content">
             <div class="modal-header"><div class="modal-title">Carregar Logo</div><button class="modal-close" data-close="logo-modal">&times;</button></div>
@@ -335,7 +293,7 @@
             <div class="modal-header"><div class="modal-title">Remarketing</div><button class="modal-close" data-close="remarketing-modal">&times;</button></div>
             <div class="modal-body">
                 <div style="display: flex; gap: var(--space-sm); margin-bottom: var(--space);">
-                    <input type="text" id="search-contacts" class="form-input-mobile" placeholder="Buscar contatos..." style="flex:1;" inputmode="search">
+                    <input type="text" id="search-contacts" class="form-input-mobile" placeholder="Buscar contatos..." style="flex:1;">
                     <button class="btn btn-primary" id="refresh-contacts"><i class="fas fa-sync"></i></button>
                 </div>
                 <div id="contacts-list" class="history-list"></div>
@@ -381,31 +339,42 @@
         </div>
     </div>
 
+    <!-- NOVO MODAL DE CONFIGURAÇÕES ANTI‑SPAM -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal-content">
             <div class="modal-header"><div class="modal-title">Configurações Anti‑Spam</div><button class="modal-close" data-close="settings-modal">&times;</button></div>
             <div class="modal-body">
                 <div class="settings-group">
-                    <label class="settings-label">Intervalo mínimo (s)</label>
+                    <label class="settings-label">Intervalo mínimo entre mensagens (segundos)</label>
                     <input type="number" id="min-interval" class="settings-input" min="10" max="600" value="60">
+                    <small style="color: var(--gray-500);">Recomendado: 60s ou mais</small>
                 </div>
                 <div class="settings-group">
-                    <label class="settings-label">Intervalo máximo (s)</label>
+                    <label class="settings-label">Intervalo máximo entre mensagens (segundos)</label>
                     <input type="number" id="max-interval" class="settings-input" min="10" max="1200" value="120">
+                    <small style="color: var(--gray-500);">O atraso real será aleatório entre min e max</small>
                 </div>
                 <div class="settings-group">
-                    <label class="settings-label">Limite diário</label>
+                    <label class="settings-label">Limite diário de mensagens</label>
                     <input type="number" id="daily-limit" class="settings-input" min="1" max="500" value="50">
+                    <small style="color: var(--gray-500);">Número máximo de envios por dia (reset à meia-noite)</small>
                 </div>
                 <div class="settings-group">
-                    <label class="checkbox-label"><input type="checkbox" id="shuffle-recipients" checked> Embaralhar</label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="shuffle-recipients" checked> Embaralhar lista de destinatários
+                    </label>
+                    <small style="color: var(--gray-500);">Evita envios em ordem fixa</small>
                 </div>
                 <div class="settings-group">
-                    <label class="checkbox-label"><input type="checkbox" id="slow-mode"> Modo lento</label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="slow-mode"> Modo lento (intervalos de 3 a 5 minutos)
+                    </label>
+                    <small style="color: var(--gray-500);">Substitui os valores acima por 180–300s</small>
                 </div>
                 <div class="settings-group">
-                    <label class="settings-label">Cooldown (dias)</label>
+                    <label class="settings-label">Cooldown entre envios para o mesmo número (dias)</label>
                     <input type="number" id="cooldown-days" class="settings-input" min="0" max="30" value="15">
+                    <small style="color: var(--gray-500);">0 = desativado</small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -415,19 +384,12 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         // ============================================================
-        // IMOBICONNECT PRO - VERSÃO MOBILE NATIVA
-        // Todos os recursos + melhorias de experiência:
-        // - Splash screen
-        // - Navegação inferior (bottom nav)
-        // - Gestos de deslizar (swipe)
-        // - Pull-to-refresh
-        // - Toast com ação de desfazer
-        // - Rascunhos automáticos
-        // - Tema automático (prefers-color-scheme)
-        // - Feedback tátil (vibração) se suportado
-        // - Rolagem suave e sticky buttons
+        // IMOBICONNECT PRO - VERSÃO ANTI‑SPAM
+        // Adicionados: configurações de intervalo, limite diário,
+        // embaralhamento, modo lento, cooldown por número, contador diário.
         // ============================================================
 
         // ---------- VARIÁVEIS GLOBAIS ----------
@@ -437,43 +399,48 @@
         let sendQueue = [];
         let sendIndex = 0;
         let currentTimeout = null;
-        let sentTodayCount = 0;
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const minSwipeDistance = 50;
+        let sentTodayCount = 0; // será carregado do localStorage
 
         const REAL_ESTATE_EMOJIS = ['🏠','🏡','🏢','🏬','🏦','🏨','🏩','🏪','🏫','🏭','🏯','🏰','💼','🔑','🚪','📐','📏','🔨','🪚','🧱','🪑','🛏️','🛋️','🚿','🚽','🔧','🧰','💰','📈','📊','🏷️','📝','✍️','🤝','🏆','⭐'];
         let availableEmojis = [];
 
         const DB_NAME = 'ImobiConnectDB';
-        const DB_VERSION = 8;
+        const DB_VERSION = 7; // incrementado devido a novas stores?
         const STORES = {
             TEMPLATES: 'templates', HISTORY: 'history', SCHEDULED: 'scheduled',
             REMARKETING: 'remarketing', SETTINGS: 'settings', CONTACTS: 'contacts',
-            STATS: 'stats', BACKUPS: 'backups', DRAFTS: 'drafts' // nova store para rascunhos
+            STATS: 'stats', BACKUPS: 'backups'
         };
 
         const SITUATIONS = [
-            { id: 'pc', title: 'Primeiro Contato', icon: 'fa-handshake', desc: 'Apresentação inicial' },
-            { id: 'sr1', title: 'Sem Resposta 1', icon: 'fa-phone', desc: 'Primeira tentativa' },
-            { id: 'sr2', title: 'Sem Resposta 2', icon: 'fa-phone-volume', desc: 'Segunda tentativa' },
-            { id: 'ri', title: 'Resposta Interessada', icon: 'fa-thumbs-up', desc: 'Cliente interessado' },
-            { id: 'rf', title: 'Lead Frio', icon: 'fa-snowflake', desc: 'Lead inativo' },
-            { id: 'ut', title: 'Última Tentativa', icon: 'fa-hourglass-end', desc: 'Último contato' }
+            { id: 'pc', title: 'Primeiro Contato', icon: 'fa-handshake', desc: 'Apresentação inicial ao cliente' },
+            { id: 'sr1', title: 'Sem Resposta 1', icon: 'fa-phone', desc: 'Primeira tentativa após não resposta' },
+            { id: 'sr2', title: 'Sem Resposta 2', icon: 'fa-phone-volume', desc: 'Segunda tentativa após não resposta' },
+            { id: 'ri', title: 'Resposta Interessada', icon: 'fa-thumbs-up', desc: 'Cliente demonstrou interesse' },
+            { id: 'rf', title: 'Lead Frio', icon: 'fa-snowflake', desc: 'Lead que não respondeu há mais tempo' },
+            { id: 'ut', title: 'Última Tentativa', icon: 'fa-hourglass-end', desc: 'Último contato antes de arquivar' }
         ];
 
         const DEFAULT_MESSAGES = {
-            'pc': 'Olá {tudo bem|como vai}, [Nome do Cliente]? 👋 Me chamo [Nome do Corretor] e vi seu interesse em [Nome do Imóvel]. Tenho informações exclusivas que podem te ajudar a encontrar o imóvel ideal! Que tal um papo {rápido|breve} para te mostrar?',
-            'sr1': 'Olá [Nome do Cliente], tudo bem? 👋 Sou [Nome do Corretor] e queria seguir com as informações sobre o [Nome do Imóvel]. Vi que você não respondeu ainda. Posso te ajudar com alguma dúvida?',
-            'sr2': '[Nome do Cliente], estou aqui para esclarecer qualquer questão sobre o [Nome do Imóvel]. O que achou da proposta? Estou à disposição para ajustar conforme sua necessidade!',
-            'ri': 'Que bom saber do seu interesse, [Nome do Cliente]! 🎉 O [Nome do Imóvel] realmente é uma excelente oportunidade. Vamos agendar uma visita ou você precisa de mais informações?',
-            'rf': 'Olá [Nome do Cliente], passando para lembrar da oportunidade no [Nome do Imóvel]. As condições ainda estão excelentes! Se mudou de ideia ou quer revisar algo, estou aqui!',
-            'ut': 'Último contato sobre o [Nome do Imóvel], [Nome do Cliente]. As condições especiais estão encerrando em breve. É sua última chance de garantir esta oportunidade!'
+            'pc': `Olá {tudo bem|como vai}, [Nome do Cliente]? 👋 Me chamo [Nome do Corretor] e vi seu interesse em [Nome do Imóvel]. Tenho informações exclusivas que podem te ajudar a encontrar o imóvel ideal! Que tal um papo {rápido|breve} para te mostrar?`,
+            'sr1': `Olá [Nome do Cliente], tudo bem? 👋 Sou [Nome do Corretor] e queria seguir com as informações sobre o [Nome do Imóvel]. Vi que você não respondeu ainda. Posso te ajudar com alguma dúvida?`,
+            'sr2': `[Nome do Cliente], estou aqui para esclarecer qualquer questão sobre o [Nome do Imóvel]. O que achou da proposta? Estou à disposição para ajustar conforme sua necessidade!`,
+            'ri': `Que bom saber do seu interesse, [Nome do Cliente]! 🎉 O [Nome do Imóvel] realmente é uma excelente oportunidade. Vamos agendar uma visita ou você precisa de mais informações?`,
+            'rf': `Olá [Nome do Cliente], passando para lembrar da oportunidade no [Nome do Imóvel]. As condições ainda estão excelentes! Se mudou de ideia ou quer revisar algo, estou aqui!`,
+            'ut': `Último contato sobre o [Nome do Imóvel], [Nome do Cliente]. As condições especiais estão encerrando em breve. É sua última chance de garantir esta oportunidade!`
         };
 
-        let config = { minInterval: 60, maxInterval: 120, dailyLimit: 50, shuffle: true, slowMode: false, cooldownDays: 15 };
+        // Configurações padrão
+        let config = {
+            minInterval: 60,
+            maxInterval: 120,
+            dailyLimit: 50,
+            shuffle: true,
+            slowMode: false,
+            cooldownDays: 15
+        };
 
-        // ---------- FUNÇÕES DE BANCO DE DADOS ----------
+        // ---------- FUNÇÕES DE BANCO DE DADOS (IndexedDB) ----------
         async function initDB() {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -481,17 +448,29 @@
                 request.onsuccess = () => { db = request.result; console.log('✅ IndexedDB pronto'); migrateOldData(); resolve(db); };
                 request.onupgradeneeded = (event) => {
                     const db = event.target.result;
-                    const stores = [STORES.TEMPLATES, STORES.HISTORY, STORES.SCHEDULED, STORES.REMARKETING, STORES.SETTINGS, STORES.CONTACTS, STORES.STATS, STORES.BACKUPS, STORES.DRAFTS];
+                    const stores = [STORES.TEMPLATES, STORES.HISTORY, STORES.SCHEDULED, STORES.REMARKETING, STORES.SETTINGS, STORES.CONTACTS, STORES.STATS, STORES.BACKUPS];
                     stores.forEach(storeName => {
                         if (!db.objectStoreNames.contains(storeName)) {
                             const store = db.createObjectStore(storeName, { keyPath: 'id' });
                             if (storeName === STORES.HISTORY) {
                                 store.createIndex('phone', 'phone', { unique: false });
                                 store.createIndex('timestamp', 'timestamp', { unique: false });
+                                store.createIndex('situation', 'situation', { unique: false });
                             }
-                            if (storeName === STORES.REMARKETING) store.createIndex('phone', 'phone', { unique: true });
-                            if (storeName === STORES.TEMPLATES) store.createIndex('situationId', 'situationId', { unique: false });
-                            if (storeName === STORES.DRAFTS) store.createIndex('situationId', 'situationId', { unique: true }); // um rascunho por situação
+                            if (storeName === STORES.SCHEDULED) {
+                                store.createIndex('scheduledTimestamp', 'scheduledTimestamp', { unique: false });
+                                store.createIndex('status', 'status', { unique: false });
+                            }
+                            if (storeName === STORES.REMARKETING) {
+                                store.createIndex('phone', 'phone', { unique: true });
+                                store.createIndex('lastContact', 'lastContact', { unique: false });
+                            }
+                            if (storeName === STORES.BACKUPS) {
+                                store.createIndex('timestamp', 'timestamp', { unique: false });
+                            }
+                            if (storeName === STORES.TEMPLATES) {
+                                store.createIndex('situationId', 'situationId', { unique: false });
+                            }
                         }
                     });
                 };
@@ -507,7 +486,7 @@
                     if (data.history) for (const h of data.history) await dbAdd(STORES.HISTORY, { ...h, id: h.id || Date.now()+Math.random() });
                     if (data.remarketing) for (const r of data.remarketing) await dbPut(STORES.REMARKETING, { ...r, id: r.phone });
                     localStorage.removeItem('ImobiConnectData');
-                    showToast('📦 Dados antigos migrados!', 'success');
+                    showStatus('📦 Dados antigos migrados com sucesso!', 'success');
                 }
             } catch(e) { console.warn('Migração:', e); }
         }
@@ -520,85 +499,21 @@
         const dbClear = (s) => new Promise((res,rej) => { const t = db.transaction([s],'readwrite'), st = t.objectStore(s), r = st.clear(); r.onsuccess = () => res(true); r.onerror = () => rej(r.error); });
         const dbCount = (s, idx=null, q=null) => new Promise((res,rej) => { const t = db.transaction([s],'readonly'), st = t.objectStore(s); let r; if (idx && q) r = st.index(idx).count(q); else if (idx) r = st.index(idx).count(); else r = st.count(); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
 
-        // ---------- TOAST ----------
-        function showToast(message, type = 'info', duration = 4000, undoAction = null) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<span>${message}</span>${undoAction ? '<button class="undo-btn">Desfazer</button>' : ''}`;
-            container.appendChild(toast);
-            if (undoAction) {
-                toast.querySelector('.undo-btn').addEventListener('click', () => {
-                    undoAction();
-                    toast.remove();
-                });
-            }
-            setTimeout(() => { if (toast.parentNode) toast.remove(); }, duration);
-        }
-
-        // ---------- VIBRAÇÃO (se suportado) ----------
-        function vibrate(pattern = 50) { if (navigator.vibrate) navigator.vibrate(pattern); }
-
-        // ---------- CONFIGURAÇÕES ----------
-        function loadConfig() {
-            let saved = localStorage.getItem('imobiConfig');
-            if (saved) try { config = JSON.parse(saved); } catch(e) {}
-            document.getElementById('min-interval').value = config.minInterval;
-            document.getElementById('max-interval').value = config.maxInterval;
-            document.getElementById('daily-limit').value = config.dailyLimit;
-            document.getElementById('shuffle-recipients').checked = config.shuffle;
-            document.getElementById('slow-mode').checked = config.slowMode;
-            document.getElementById('cooldown-days').value = config.cooldownDays;
-        }
-        function saveConfig() {
-            config.minInterval = parseInt(document.getElementById('min-interval').value) || 60;
-            config.maxInterval = parseInt(document.getElementById('max-interval').value) || 120;
-            config.dailyLimit = parseInt(document.getElementById('daily-limit').value) || 50;
-            config.shuffle = document.getElementById('shuffle-recipients').checked;
-            config.slowMode = document.getElementById('slow-mode').checked;
-            config.cooldownDays = parseInt(document.getElementById('cooldown-days').value) || 15;
-            if (config.slowMode) { config.minInterval = 180; config.maxInterval = 300; }
-            localStorage.setItem('imobiConfig', JSON.stringify(config));
-            showToast('⚙️ Configurações salvas!', 'success');
-            document.getElementById('settings-modal').style.display = 'none';
-        }
-
-        // ---------- CONTADOR DIÁRIO ----------
-        function loadSentToday() {
-            let today = new Date().toDateString();
-            let stored = localStorage.getItem('sentToday');
-            if (stored) {
-                let { date, count } = JSON.parse(stored);
-                if (date === today) sentTodayCount = count;
-                else { sentTodayCount = 0; localStorage.setItem('sentToday', JSON.stringify({ date: today, count: 0 })); }
-            } else {
-                sentTodayCount = 0;
-                localStorage.setItem('sentToday', JSON.stringify({ date: today, count: 0 }));
-            }
-            document.getElementById('sent-today-count').textContent = sentTodayCount;
-        }
-        function incrementSentToday() {
-            sentTodayCount++;
-            let today = new Date().toDateString();
-            localStorage.setItem('sentToday', JSON.stringify({ date: today, count: sentTodayCount }));
-            document.getElementById('sent-today-count').textContent = sentTodayCount;
-        }
-
-        // ---------- ESTATÍSTICAS ----------
-        async function updateStats() {
-            try {
-                let today = new Date().toISOString().slice(0,10);
-                let todayStart = new Date(today+'T00:00:00.000Z').toISOString();
-                let todayEnd = new Date(today+'T23:59:59.999Z').toISOString();
-                let todayCount = await dbCount(STORES.HISTORY, 'timestamp', IDBKeyRange.bound(todayStart, todayEnd));
-                document.getElementById('daily-count').textContent = todayCount;
-                document.getElementById('total-count').textContent = await dbCount(STORES.HISTORY);
-                document.getElementById('scheduled-count').textContent = await dbCount(STORES.SCHEDULED, 'status', 'pending');
-                document.getElementById('contacts-count').textContent = await dbCount(STORES.REMARKETING);
-            } catch(e){ console.error(e); }
-        }
-
         // ---------- UTILITÁRIAS ----------
+        function showStatus(msg, type='info') {
+            let statusEl = document.getElementById('status-message');
+            if (!statusEl) {
+                statusEl = document.createElement('div');
+                statusEl.id = 'status-message';
+                statusEl.className = 'status-message-mobile';
+                document.getElementById('app-pages').prepend(statusEl);
+            }
+            statusEl.textContent = msg;
+            statusEl.className = `status-message-mobile ${type}`;
+            statusEl.style.display = 'block';
+            setTimeout(() => { if (statusEl.textContent === msg) statusEl.style.display = 'none'; }, type==='error'?8000:4000);
+        }
+
         function formatPhoneNumber(phone) {
             if (!phone) return null;
             phone = phone.toString().replace(/\D/g, '');
@@ -640,90 +555,147 @@
 
         function updateCharCounter(situationId) {
             let box = document.getElementById(`message-${situationId}`), counter = document.getElementById(`counter-${situationId}`);
-            if (box && counter) { let text = cleanMessageText(box.innerHTML); let len = text.length; counter.textContent = `${len}/1000`; counter.className = len>1000 ? 'char-counter limit' : 'char-counter'; }
+            if (box && counter) { let text = cleanMessageText(box.innerHTML || box.textContent); let len = text.length; counter.textContent = `${len}/1000`; counter.className = len>1000 ? 'char-counter limit' : 'char-counter'; }
         }
         function insertAtCursor(el, text) { el.focus(); let sel = window.getSelection(); if(sel.getRangeAt && sel.rangeCount){ let r = sel.getRangeAt(0); r.deleteContents(); let n = document.createTextNode(text); r.insertNode(n); r.setStartAfter(n); r.collapse(true); sel.removeAllRanges(); sel.addRange(r); el.dispatchEvent(new Event('input',{bubbles:true})); } }
 
-        // ---------- RASCUNHOS ----------
-        async function saveDraft(situationId) {
-            let page = document.getElementById(`page-${situationId}`);
-            if (!page) return;
-            let draft = {
-                id: situationId,
-                situationId,
-                clientName: page.querySelector(`#client-name-${situationId}`)?.value || '',
-                phone: page.querySelector(`#phone-${situationId}`)?.value || '',
-                imovel: page.querySelector(`#imovel-name-${situationId}`)?.value || '',
-                corretor: page.querySelector(`#corretor-name-${situationId}`)?.value || '',
-                message: document.getElementById(`message-${situationId}`)?.innerHTML || '',
-                link: page.querySelector(`#link-text-${situationId}`)?.value || '',
-                profession: page.querySelector(`#client-profession-${situationId}`)?.value || '',
-                timestamp: Date.now()
-            };
-            await dbPut(STORES.DRAFTS, draft);
+        // ---------- CONTADOR DIÁRIO ----------
+        function loadSentToday() {
+            let today = new Date().toDateString();
+            let stored = localStorage.getItem('sentToday');
+            if (stored) {
+                let { date, count } = JSON.parse(stored);
+                if (date === today) sentTodayCount = count;
+                else { sentTodayCount = 0; localStorage.setItem('sentToday', JSON.stringify({ date: today, count: 0 })); }
+            } else {
+                sentTodayCount = 0;
+                localStorage.setItem('sentToday', JSON.stringify({ date: today, count: 0 }));
+            }
+            document.getElementById('sent-today-count').textContent = sentTodayCount;
         }
-        async function loadDraft(situationId) {
-            let draft = await dbGet(STORES.DRAFTS, situationId);
-            if (!draft) return;
-            let page = document.getElementById(`page-${situationId}`);
-            if (!page) return;
-            if (draft.clientName) page.querySelector(`#client-name-${situationId}`).value = draft.clientName;
-            if (draft.phone) page.querySelector(`#phone-${situationId}`).value = draft.phone;
-            if (draft.imovel) page.querySelector(`#imovel-name-${situationId}`).value = draft.imovel;
-            if (draft.corretor) page.querySelector(`#corretor-name-${situationId}`).value = draft.corretor;
-            if (draft.message) document.getElementById(`message-${situationId}`).innerHTML = draft.message;
-            if (draft.link) page.querySelector(`#link-text-${situationId}`).value = draft.link;
-            if (draft.profession) page.querySelector(`#client-profession-${situationId}`).value = draft.profession;
-            updateCharCounter(situationId);
+        function incrementSentToday() {
+            sentTodayCount++;
+            let today = new Date().toDateString();
+            localStorage.setItem('sentToday', JSON.stringify({ date: today, count: sentTodayCount }));
+            document.getElementById('sent-today-count').textContent = sentTodayCount;
         }
 
-        // ---------- CÓPIA DE IMAGEM ----------
+        // ---------- CONFIGURAÇÕES ----------
+        function loadConfig() {
+            let saved = localStorage.getItem('imobiConfig');
+            if (saved) {
+                try { config = JSON.parse(saved); } catch(e) {}
+            }
+            // Aplica valores nos inputs do modal
+            document.getElementById('min-interval').value = config.minInterval;
+            document.getElementById('max-interval').value = config.maxInterval;
+            document.getElementById('daily-limit').value = config.dailyLimit;
+            document.getElementById('shuffle-recipients').checked = config.shuffle;
+            document.getElementById('slow-mode').checked = config.slowMode;
+            document.getElementById('cooldown-days').value = config.cooldownDays;
+        }
+        function saveConfig() {
+            config.minInterval = parseInt(document.getElementById('min-interval').value) || 60;
+            config.maxInterval = parseInt(document.getElementById('max-interval').value) || 120;
+            config.dailyLimit = parseInt(document.getElementById('daily-limit').value) || 50;
+            config.shuffle = document.getElementById('shuffle-recipients').checked;
+            config.slowMode = document.getElementById('slow-mode').checked;
+            config.cooldownDays = parseInt(document.getElementById('cooldown-days').value) || 15;
+            if (config.slowMode) {
+                config.minInterval = 180;
+                config.maxInterval = 300;
+            }
+            localStorage.setItem('imobiConfig', JSON.stringify(config));
+            showStatus('⚙️ Configurações salvas!', 'success');
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        // ---------- ESTATÍSTICAS ----------
+        async function updateStats() {
+            try {
+                let today = new Date().toISOString().slice(0,10);
+                let todayStart = new Date(today+'T00:00:00.000Z').toISOString(), todayEnd = new Date(today+'T23:59:59.999Z').toISOString();
+                let todayCount = await dbCount(STORES.HISTORY, 'timestamp', IDBKeyRange.bound(todayStart, todayEnd));
+                document.getElementById('daily-count').textContent = todayCount;
+                let totalCount = await dbCount(STORES.HISTORY);
+                document.getElementById('total-count').textContent = totalCount;
+                let scheduledCount = await dbCount(STORES.SCHEDULED, 'status', 'pending');
+                document.getElementById('scheduled-count').textContent = scheduledCount;
+                let contactsCount = await dbCount(STORES.REMARKETING);
+                document.getElementById('contacts-count').textContent = contactsCount;
+                // contador diário já é atualizado via localStorage
+            } catch(e){ console.error(e); }
+        }
+
+        // ---------- CÓPIA DA IMAGEM ----------
         async function copyImageToClipboard(imageFile) {
             if (!imageFile) return false;
             if (!navigator.clipboard || !navigator.clipboard.write || typeof ClipboardItem === 'undefined') {
-                showToast('⚠️ Seu navegador não suporta cópia de imagem. Anexe manualmente.', 'warning', 5000);
+                showStatus('⚠️ Seu navegador não suporta cópia de imagem. Anexe manualmente.', 'warning');
                 return false;
             }
             try {
-                const clipboardItem = new ClipboardItem({ [imageFile.type]: imageFile });
+                const clipboardItem = new ClipboardItem({
+                    [imageFile.type]: imageFile
+                });
                 await navigator.clipboard.write([clipboardItem]);
-                showToast('📸 Imagem copiada! Agora cole no WhatsApp.', 'success');
+                showStatus('📸 Imagem copiada! Agora é só colar (Ctrl+V) no WhatsApp.', 'success');
                 return true;
             } catch (e) {
-                console.warn(e);
-                showToast('❌ Falha ao copiar imagem. Anexe manualmente.', 'error');
+                console.warn('Erro ao copiar imagem:', e);
+                showStatus('❌ Falha ao copiar imagem. Anexe manualmente.', 'error');
                 return false;
             }
         }
 
-        // ---------- ABRIR WHATSAPP ----------
+        // ---------- ABRIR WHATSAPP (MELHORADO) ----------
         async function openWhatsApp(phone, message) {
             const encoded = encodeURIComponent(message);
             const appUrl = `whatsapp://send?phone=${phone}&text=${encoded}`;
             const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encoded}`;
+            
             const isAndroid = /Android/i.test(navigator.userAgent);
-            const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+            const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) && !window.MSStream;
+            const isMobile = isAndroid || isIOS;
+
             return new Promise(resolve => {
                 if (isAndroid) {
-                    window.location.href = `intent://send?phone=${phone}&text=${encoded}#Intent;package=com.whatsapp;scheme=whatsapp;end;`;
-                    setTimeout(() => { window.location.href = webUrl; resolve(); }, 2000);
+                    const intentUrl = `intent://send?phone=${phone}&text=${encoded}#Intent;package=com.whatsapp;scheme=whatsapp;end;`;
+                    window.location.href = intentUrl;
+                    setTimeout(() => {
+                        window.location.href = webUrl;
+                        showStatus(`📲 WhatsApp Web aberto (app não encontrado).`, 'info');
+                        resolve();
+                    }, 2000);
                 } else if (isIOS) {
                     window.location.href = appUrl;
-                    setTimeout(() => { window.location.href = webUrl; resolve(); }, 2000);
+                    setTimeout(() => {
+                        window.location.href = webUrl;
+                        showStatus(`📲 WhatsApp Web aberto (app não encontrado).`, 'info');
+                        resolve();
+                    }, 2000);
                 } else {
                     window.location.href = appUrl;
-                    setTimeout(() => { window.open(webUrl, '_blank'); resolve(); }, 1500);
+                    setTimeout(() => {
+                        window.open(webUrl, '_blank');
+                        showStatus(`💻 WhatsApp Web aberto.`, 'info');
+                        resolve();
+                    }, 1500);
                 }
             });
         }
 
-        // ---------- ENVIO SEQUENCIAL ----------
+        // ---------- ENVIO SEQUENCIAL (COM NOVAS CONFIGURAÇÕES) ----------
         async function sendMessagesSequentially(queue, sit) {
-            if (!queue.length) { showToast('Nenhuma mensagem', 'warning'); return; }
+            if (!queue.length) { showStatus('Nenhuma mensagem','warning'); return; }
+            
+            // Verifica limite diário
             if (sentTodayCount >= config.dailyLimit) {
-                showToast(`🚫 Limite diário de ${config.dailyLimit} mensagens atingido.`, 'error');
+                showStatus(`🚫 Limite diário de ${config.dailyLimit} mensagens atingido.`, 'error');
                 return;
             }
+
+            // Embaralha se configurado
             let workingQueue = [...queue];
             if (config.shuffle) {
                 for (let i = workingQueue.length - 1; i > 0; i--) {
@@ -731,48 +703,66 @@
                     [workingQueue[i], workingQueue[j]] = [workingQueue[j], workingQueue[i]];
                 }
             }
+
+            // Aplica cooldown (remove números já enviados nos últimos X dias)
             if (config.cooldownDays > 0) {
-                let cutoff = new Date(); cutoff.setDate(cutoff.getDate() - config.cooldownDays);
+                let cutoff = new Date();
+                cutoff.setDate(cutoff.getDate() - config.cooldownDays);
                 let filtered = [];
                 for (let item of workingQueue) {
                     let recent = await dbGetAll(STORES.HISTORY, 'phone', item.recipient.phone);
                     let hasRecent = recent ? recent.some(m => new Date(m.timestamp) > cutoff) : false;
                     if (!hasRecent) filtered.push(item);
-                    else showToast(`⏭️ Pulando ${item.recipient.name}: já enviado recentemente.`, 'info', 3000);
+                    else showStatus(`⏭️ Pulando ${item.recipient.name}: já enviado nos últimos ${config.cooldownDays} dias.`, 'info');
                 }
                 workingQueue = filtered;
             }
-            if (workingQueue.length === 0) { showToast('Nenhum destinatário apto.', 'warning'); return; }
+
+            if (workingQueue.length === 0) {
+                showStatus('Nenhum destinatário apto para envio (todos em cooldown).', 'warning');
+                return;
+            }
 
             isSending = true; sendIndex = 0;
             let progressBar = document.getElementById('progress-bar'), progressContainer = document.getElementById('progress-container');
-            progressContainer.style.display = 'block'; progressBar.style.width = '0%';
+            if (!progressContainer) {
+                progressContainer = document.createElement('div'); progressContainer.id = 'progress-container'; progressContainer.className = 'progress-container-mobile';
+                progressBar = document.createElement('div'); progressBar.id = 'progress-bar'; progressBar.className = 'progress-bar-mobile';
+                progressContainer.appendChild(progressBar); document.getElementById('app-pages').prepend(progressContainer);
+            }
+            progressContainer.style.display = 'block'; progressBar.style.width = '0%'; progressBar.setAttribute('aria-valuenow','0');
 
-            for (let i = 0; i < workingQueue.length; i++) {
+            for (let i=0; i<workingQueue.length; i++) {
                 if (!isSending) break;
                 if (sentTodayCount >= config.dailyLimit) {
-                    showToast('⛔ Limite diário atingido. Envio interrompido.', 'warning');
+                    showStatus(`⛔ Limite diário atingido. Envio interrompido.`, 'warning');
                     break;
                 }
+
                 let item = workingQueue[i], rec = item.recipient, msg = item.message;
+                
+                // Atraso aleatório entre min e max
                 let interval = Math.floor(Math.random() * (config.maxInterval - config.minInterval + 1)) + config.minInterval;
-                showToast(`📤 Enviando para ${rec.name}... (${i+1}/${workingQueue.length})`, 'info', interval * 1000 + 1000);
+                showStatus(`📤 Enviando para ${rec.name}... Aguarde ${interval}s (${i+1}/${workingQueue.length})`, 'info');
                 await new Promise(r => currentTimeout = setTimeout(r, interval * 1000));
+
                 try {
                     await openWhatsApp(rec.phone, msg);
                     await dbAdd(STORES.HISTORY, { id: Date.now()+Math.random(), name: rec.originalName||rec.name, phone: rec.phone, message: cleanMessageText(msg).substring(0,500), timestamp: new Date().toISOString(), situation: sit, status:'sent' });
                     await dbPut(STORES.REMARKETING, { id: rec.phone, phone: rec.phone, name: rec.originalName||rec.name, lastContact: new Date().toISOString(), situation: sit });
-                    incrementSentToday();
-                    vibrate(30);
-                } catch(e){ showToast(`❌ Erro ao enviar para ${rec.name}.`, 'error'); }
+                    incrementSentToday(); // incrementa contador diário
+                    showStatus(`✅ Enviado para ${rec.name}!`, 'success');
+                } catch(e){
+                    showStatus(`❌ Erro ao enviar para ${rec.name}.`, 'error');
+                }
                 sendIndex++;
                 let p = Math.round((sendIndex/workingQueue.length)*100);
-                progressBar.style.width = p+'%';
+                progressBar.style.width = p+'%'; progressBar.setAttribute('aria-valuenow',p);
             }
-            isSending = false; if (currentTimeout) clearTimeout(currentTimeout);
-            progressBar.style.width = '100%';
-            setTimeout(() => { progressContainer.style.display = 'none'; progressBar.style.width = '0%'; }, 2000);
-            showToast(`🏁 Envio concluído! ${sendIndex} de ${workingQueue.length} mensagens.`, 'success');
+            isSending = false; if (currentTimeout) { clearTimeout(currentTimeout); currentTimeout = null; }
+            progressBar.style.width = '100%'; progressBar.setAttribute('aria-valuenow','100');
+            setTimeout(() => { progressContainer.style.display = 'none'; progressBar.style.width = '0%'; },2000);
+            showStatus(`🏁 Envio concluído! ${sendIndex} de ${workingQueue.length} mensagens.`,'success');
             updateStats();
             document.getElementById('send-messages-btn').innerHTML = '<i class="fab fa-whatsapp"></i> Enviar Mensagens';
             document.getElementById('send-messages-btn').disabled = false;
@@ -782,35 +772,42 @@
 
         // ---------- HANDLE SEND ----------
         async function handleSend(situationId) {
-            if (isSending) { showToast('Aguarde o envio atual terminar.', 'warning'); return; }
+            if (isSending) { showStatus('Aguarde o envio atual terminar.','warning'); return; }
             let page = document.getElementById(`page-${situationId}`);
             if (!page) return;
-            let nameInput = page.querySelector(`#client-name-${situationId}`), phoneInput = page.querySelector(`#phone-${situationId}`), imovelInput = page.querySelector(`#imovel-name-${situationId}`), corretorInput = page.querySelector(`#corretor-name-${situationId}`), messageBox = document.getElementById(`message-${situationId}`);
-            if (!nameInput?.value.trim()) { showToast('Preencha os nomes.', 'error'); return; }
-            if (!phoneInput?.value.trim()) { showToast('Preencha os telefones.', 'error'); return; }
-            if (!messageBox?.innerText.trim()) { showToast('Mensagem vazia.', 'error'); return; }
+            let nameInput = page.querySelector(`#client-name-${situationId}`), phoneInput = page.querySelector(`#phone-${situationId}`), imovelInput = page.querySelector(`#imovel-name-${situationId}`), corretorInput = page.querySelector(`#corretor-name-${situationId}`), messageBox = page.querySelector(`#message-${situationId}`);
+            if (!nameInput || !nameInput.value.trim()) { showStatus('Preencha os nomes.','error'); return; }
+            if (!phoneInput || !phoneInput.value.trim()) { showStatus('Preencha os telefones.','error'); return; }
+            if (!messageBox || !messageBox.textContent.trim()) { showStatus('Mensagem vazia.','error'); return; }
             let names = nameInput.value.split(',').map(n=>n.trim()).filter(n=>n);
             let phones = phoneInput.value.split(',').map(p=>formatPhoneNumber(p.trim())).filter(p=>p);
-            if (!names.length || !phones.length) { showToast('Nomes ou telefones inválidos.', 'error'); return; }
+            if (!names.length || !phones.length) { showStatus('Nomes ou telefones inválidos.','error'); return; }
+            // Remove duplicatas (mesmo número)
             let unique = {};
             let recipients = [];
             for (let i=0; i<Math.min(names.length, phones.length); i++) {
                 let phone = phones[i];
-                if (!unique[phone]) { unique[phone] = true; recipients.push({ originalName: names[i], name: names[i].split(' ')[0], phone }); }
+                if (!unique[phone]) {
+                    unique[phone] = true;
+                    recipients.push({ originalName: names[i], name: names[i].split(' ')[0], phone });
+                }
             }
-            if (recipients.length === 0) { showToast('Nenhum destinatário válido.', 'error'); return; }
+            if (recipients.length === 0) { showStatus('Nenhum destinatário válido após deduplicação.','error'); return; }
 
             let imageFile = page.querySelector(`#image-file-${situationId}`)?.files[0];
             await copyImageToClipboard(imageFile);
+
+            let linkText = page.querySelector(`#link-text-${situationId}`)?.value || '';
+            if (linkText.trim()) showStatus(`🔗 Link: ${linkText}`, 'info');
 
             resetEmojiPool();
             let queue = recipients.map(r => ({ recipient: r, message: processMessage(messageBox.innerHTML, r.name, imovelInput?.value.trim()||'', corretorInput?.value.trim()||'', {}, getNextEmoji()) }));
 
             let sendBtn = document.getElementById('send-messages-btn'), cancelBtn = document.getElementById(`cancel-send-${situationId}`);
             sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...'; sendBtn.disabled = true;
-            if (cancelBtn) {
-                cancelBtn.style.display = 'flex';
-                cancelBtn.onclick = () => { isSending = false; if(currentTimeout) clearTimeout(currentTimeout); showToast('⛔ Envio cancelado.', 'warning'); sendBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar Mensagens'; sendBtn.disabled = false; cancelBtn.style.display = 'none'; };
+            if (cancelBtn) { 
+                cancelBtn.style.display = 'flex'; 
+                cancelBtn.onclick = () => { isSending = false; if(currentTimeout) clearTimeout(currentTimeout); showStatus('⛔ Envio cancelado.','warning'); sendBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar Mensagens'; sendBtn.disabled = false; cancelBtn.style.display = 'none'; }; 
             }
             await sendMessagesSequentially(queue, situationId);
         }
@@ -833,9 +830,9 @@
                 page.innerHTML = `
                     <div class="situation-header-mobile"><div class="situation-header-top"><div class="situation-icon-mobile"><i class="fas ${s.icon}"></i></div><div class="situation-title-mobile"><h3>${s.title}</h3><p>${s.desc}</p></div></div></div>
                     <div class="form-section"><div class="form-section-title"><i class="fas fa-address-card"></i> Dados do Cliente</div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-briefcase"></i> Profissão</label><select id="client-profession-${s.id}" class="form-input-mobile select-input-mobile"><option value="">Selecione...</option><option value="geral">Geral</option><option value="advogado">Advogado(a)</option><option value="medico">Médico(a)</option><option value="empreendedor">Empreendedor(a)</option><option value="servidor_publico">Servidor Público</option><option value="investidor">Investidor(a)</option><option value="vendedor">Vendedor(a)</option><option value="professor">Professor(a)</option><option value="corretor_imoveis">Corretor(a)</option><option value="outros">Outros</option></select></div></div>
-                    <div class="form-section"><div class="form-section-title"><i class="fas fa-users"></i> Contatos</div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-user"></i> Nomes</label><div class="input-group-mobile"><i class="fas fa-user input-icon-mobile"></i><input type="text" id="client-name-${s.id}" class="form-input-mobile" placeholder="João Silva, Maria Santos" inputmode="text"></div></div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-phone"></i> Telefones</label><div class="input-group-mobile"><i class="fas fa-phone input-icon-mobile"></i><input type="text" id="phone-${s.id}" class="form-input-mobile" placeholder="41987654321, 41987654322" inputmode="numeric"></div></div></div>
+                    <div class="form-section"><div class="form-section-title"><i class="fas fa-users"></i> Contatos</div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-user"></i> Nomes</label><div class="input-group-mobile"><i class="fas fa-user input-icon-mobile"></i><input type="text" id="client-name-${s.id}" class="form-input-mobile" placeholder="João Silva, Maria Santos"></div></div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-phone"></i> Telefones</label><div class="input-group-mobile"><i class="fas fa-phone input-icon-mobile"></i><input type="text" id="phone-${s.id}" class="form-input-mobile" placeholder="41987654321, 41987654322"></div></div></div>
                     <div class="form-section"><div class="form-section-title"><i class="fas fa-info-circle"></i> Informações Adicionais</div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-home"></i> Imóvel/Produto</label><div class="input-group-mobile"><i class="fas fa-home input-icon-mobile"></i><input type="text" id="imovel-name-${s.id}" class="form-input-mobile" placeholder="Residencial Pau Brasil"></div></div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-id-badge"></i> Corretor</label><div class="input-group-mobile"><i class="fas fa-id-badge input-icon-mobile"></i><input type="text" id="corretor-name-${s.id}" class="form-input-mobile" placeholder="Seu Nome"></div></div></div>
-                    <div class="form-section"><div class="form-section-title"><i class="fas fa-photo-video"></i> Imagem (opcional - copiada)</div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-image"></i> Selecionar imagem</label><div class="file-upload-group"><input type="file" id="image-file-${s.id}" accept="image/*" class="file-input-mobile"><span id="image-file-name-${s.id}" class="file-name"></span></div><img id="image-preview-${s.id}" class="image-preview" alt="Pré-visualização"></div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-link"></i> Link (opcional)</label><div class="input-group-mobile"><i class="fas fa-link input-icon-mobile"></i><input type="url" id="link-text-${s.id}" class="form-input-mobile" placeholder="https://exemplo.com/oferta" inputmode="url"></div></div></div>
+                    <div class="form-section"><div class="form-section-title"><i class="fas fa-photo-video"></i> Imagem (opcional - copiada para colar)</div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-image"></i> Selecionar imagem</label><div class="file-upload-group"><input type="file" id="image-file-${s.id}" accept="image/*" class="file-input-mobile"><span id="image-file-name-${s.id}" class="file-name"></span></div><img id="image-preview-${s.id}" class="image-preview" alt="Pré-visualização"></div><div class="form-group-mobile"><label class="form-label-mobile"><i class="fas fa-link"></i> Link (opcional)</label><div class="input-group-mobile"><i class="fas fa-link input-icon-mobile"></i><input type="url" id="link-text-${s.id}" class="form-input-mobile" placeholder="https://exemplo.com/oferta"></div></div></div>
                     <div class="form-section"><div class="form-section-title"><i class="fas fa-comment-dots"></i> Mensagem</div><div class="message-toolbar-mobile"><button class="btn btn-secondary btn-sm" data-emoji="👋">👋</button><button class="btn btn-secondary btn-sm" data-emoji="😊">😊</button><button class="btn btn-secondary btn-sm" data-emoji="📌">📌</button><button class="btn btn-secondary btn-sm" data-action="bold"><i class="fas fa-bold"></i></button><button class="btn btn-secondary btn-sm" data-action="italic"><i class="fas fa-italic"></i></button></div><div id="message-${s.id}" class="message-box-mobile" contenteditable="true" data-placeholder="Digite sua mensagem...">${DEFAULT_MESSAGES[s.id]}</div><div id="counter-${s.id}" class="char-counter">0/1000</div></div>
                     <div class="action-buttons-mobile"><button class="btn btn-success" data-action="save-template" data-target="${s.id}" style="flex:1;"><i class="far fa-save"></i> Salvar</button><button class="btn btn-secondary" data-action="test-message" data-target="${s.id}" style="flex:1;"><i class="fas fa-vial"></i> Testar</button><button class="btn btn-danger" id="cancel-send-${s.id}" style="display: none; flex:1;"><i class="fas fa-times"></i> Cancelar</button></div>
                 `;
@@ -860,33 +857,15 @@
                 }
             });
 
-            // Eventos para salvar rascunhos
-            SITUATIONS.forEach(s => {
-                let page = document.getElementById(`page-${s.id}`);
-                if (page) {
-                    page.querySelectorAll('input, select, [contenteditable]').forEach(el => {
-                        el.addEventListener('input', () => saveDraft(s.id));
-                    });
-                }
-            });
-
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             homePage.classList.add('active');
             currentSituation = null;
             updateHeaderForHome();
-            updateBottomNav('home');
+            toggleFooter(false);
         }
 
         // ---------- NAVEGAÇÃO ----------
-        function showHome() {
-            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-            document.getElementById('home-page').classList.add('active');
-            currentSituation = null;
-            updateHeaderForHome();
-            updateBottomNav('home');
-            document.getElementById('send-messages-btn').setAttribute('data-target','');
-            document.getElementById('mobile-footer').classList.add('hidden');
-        }
+        function showHome() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('home-page').classList.add('active'); currentSituation=null; updateHeaderForHome(); toggleFooter(false); document.getElementById('send-messages-btn').setAttribute('data-target',''); }
         function showSituation(situationId) {
             const page = document.getElementById(`page-${situationId}`);
             if (!page) return;
@@ -897,72 +876,13 @@
             document.getElementById('header-title').textContent = sit.title;
             document.getElementById('header-subtitle').textContent = sit.desc;
             document.getElementById('back-button').style.display = 'flex';
-            updateBottomNav(situationId);
-            document.getElementById('mobile-footer').classList.remove('hidden');
+            toggleFooter(true);
             document.getElementById('send-messages-btn').setAttribute('data-target', situationId);
             loadTemplate(situationId);
-            loadDraft(situationId);
             updateCharCounter(situationId);
         }
-        function updateHeaderForHome() {
-            document.getElementById('header-title').textContent = 'ImobiConnect Pro';
-            document.getElementById('header-subtitle').textContent = 'Experiência Mobile';
-            document.getElementById('back-button').style.display = 'none';
-        }
-        function updateBottomNav(activeId) {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                let id = item.dataset.nav;
-                if (id === activeId) item.classList.add('active');
-                else item.classList.remove('active');
-            });
-        }
-
-        // ---------- GESTOS ----------
-        function initSwipe() {
-            const pages = document.getElementById('app-pages');
-            pages.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-            pages.addEventListener('touchend', e => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, { passive: true });
-        }
-        function handleSwipe() {
-            if (!currentSituation) return; // só funciona dentro de uma situação
-            let diff = touchEndX - touchStartX;
-            if (Math.abs(diff) < minSwipeDistance) return;
-            if (diff > 0) { // swipe direita -> voltar para home
-                showHome();
-            } else { // swipe esquerda -> próxima situação (opcional)
-                // pode avançar para a próxima situação da lista
-                let index = SITUATIONS.findIndex(s => s.id === currentSituation);
-                if (index < SITUATIONS.length - 1) {
-                    showSituation(SITUATIONS[index + 1].id);
-                }
-            }
-        }
-
-        // ---------- PULL-TO-REFRESH ----------
-        let startY = 0;
-        function initPullToRefresh() {
-            const container = document.getElementById('app-pages');
-            container.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
-            container.addEventListener('touchmove', e => {
-                if (container.scrollTop === 0 && e.touches[0].clientY - startY > 80) {
-                    document.querySelector('.pull-to-refresh-indicator').style.display = 'block';
-                }
-            }, { passive: true });
-            container.addEventListener('touchend', async e => {
-                if (container.scrollTop === 0 && e.changedTouches[0].clientY - startY > 80) {
-                    document.querySelector('.pull-to-refresh-indicator').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Atualizando...';
-                    await updateStats();
-                    loadSentToday();
-                    setTimeout(() => {
-                        document.querySelector('.pull-to-refresh-indicator').style.display = 'none';
-                        document.querySelector('.pull-to-refresh-indicator').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Atualizando...';
-                    }, 1000);
-                }
-            }, { passive: true });
-        }
+        function updateHeaderForHome() { document.getElementById('header-title').textContent = 'ImobiConnect Pro'; document.getElementById('header-subtitle').textContent = 'Sistema Anti‑Spam'; document.getElementById('back-button').style.display = 'none'; }
+        function toggleFooter(show) { const f=document.getElementById('mobile-footer'); if(show) f.classList.remove('hidden'); else f.classList.add('hidden'); }
 
         // ---------- TEMPLATES ----------
         async function loadTemplate(situationId) {
@@ -979,86 +899,45 @@
             let msgBox = document.getElementById(`message-${situationId}`);
             if (!msgBox) return;
             let template = { id: `template_${situationId}_${Date.now()}`, situationId, content: msgBox.innerHTML, timestamp: new Date().toISOString(), name: `Template ${situationId.toUpperCase()} - ${new Date().toLocaleDateString('pt-BR')}` };
-            try { await dbAdd(STORES.TEMPLATES, template); showToast('📝 Template salvo!', 'success'); } catch(e){ showToast(`Erro: ${e.message}`, 'error'); }
+            try { await dbAdd(STORES.TEMPLATES, template); showStatus('📝 Template salvo!','success'); } catch(e){ showStatus(`Erro: ${e.message}`,'error'); }
         }
         function testMessage(situationId) {
             let page = document.getElementById(`page-${situationId}`);
             let name = page?.querySelector(`#client-name-${situationId}`)?.value.trim() || 'João Silva';
             let imovel = page?.querySelector(`#imovel-name-${situationId}`)?.value.trim() || 'Residencial Teste';
             let corretor = page?.querySelector(`#corretor-name-${situationId}`)?.value.trim() || 'Corretor Teste';
-            let msgBox = document.getElementById(`message-${situationId}`);
+            let msgBox = page?.querySelector(`#message-${situationId}`);
             let emoji = REAL_ESTATE_EMOJIS[Math.floor(Math.random() * REAL_ESTATE_EMOJIS.length)];
             let testMsg = processMessage(msgBox?.innerHTML || '', name, imovel, corretor, {}, emoji);
-            showToast(`📝 Prévia: ${testMsg.substring(0,100)}...`, 'info', 8000);
+            let modal = document.createElement('div');
+            modal.className = 'modal-overlay'; modal.style.display = 'flex';
+            modal.innerHTML = `<div class="modal-content"><div class="modal-header"><div class="modal-title">Mensagem de Teste</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button></div><div class="modal-body"><div style="background: var(--gray-100); padding: var(--space); border-radius: var(--radius); margin-bottom: var(--space); white-space: pre-wrap;">${testMsg}</div><p style="color:var(--gray-600);">Prévia para ${name}.</p><button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()" style="margin-top:var(--space);">Fechar</button></div></div>`;
+            document.body.appendChild(modal);
         }
 
         // ---------- DARK MODE ----------
-        function initTheme() {
-            if (localStorage.getItem('darkMode') === 'enabled') {
-                document.body.classList.add('dark-mode');
-            } else if (localStorage.getItem('darkMode') === 'disabled') {
-                document.body.classList.remove('dark-mode');
-            } else {
-                // segue o sistema
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark-mode');
-                else document.body.classList.remove('dark-mode');
-            }
-        }
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             let btn = document.getElementById('menu-item-dark-mode');
-            if (document.body.classList.contains('dark-mode')) {
-                btn.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
-                localStorage.setItem('darkMode', 'enabled');
-            } else {
-                btn.innerHTML = '<i class="fas fa-moon"></i> Modo Escuro';
-                localStorage.setItem('darkMode', 'disabled');
-            }
+            if (document.body.classList.contains('dark-mode')) { btn.innerHTML = '<i class="fas fa-sun"></i> Modo Claro'; localStorage.setItem('darkMode','enabled'); }
+            else { btn.innerHTML = '<i class="fas fa-moon"></i> Modo Escuro'; localStorage.setItem('darkMode','disabled'); }
         }
 
         // ---------- MENU ----------
-        function generateMenuItems() {
-            const container = document.getElementById('menu-items-container');
-            container.innerHTML = `
-                <button class="menu-item" id="menu-item-home"><i class="fas fa-home"></i> Página Inicial</button>
-                <div class="menu-divider"></div>
-                <div style="padding: var(--space-sm) var(--space); font-weight: 700; color: var(--primary);">Situações</div>
-                <div id="menu-situations-container"></div>
-                <div class="menu-divider"></div>
-                <button class="menu-item" id="menu-item-settings"><i class="fas fa-sliders-h"></i> Configurações Anti‑Spam</button>
-                <button class="menu-item" id="menu-item-import-txt"><i class="fas fa-file-import"></i> Importar Contatos (TXT)</button>
-                <button class="menu-item" id="menu-item-export-txt"><i class="fas fa-file-export"></i> Exportar Contatos Carregados</button>
-                <button class="menu-item" id="menu-item-export-remarketing-txt"><i class="fas fa-address-book"></i> Exportar Contatos Salvos (TXT)</button>
-                <div class="menu-divider"></div>
-                <button class="menu-item" id="menu-item-upload-logo"><i class="fas fa-upload"></i> Carregar Logo</button>
-                <button class="menu-item" id="menu-item-dark-mode"><i class="fas fa-moon"></i> Modo Escuro</button>
-                <button class="menu-item" id="menu-item-backup"><i class="fas fa-database"></i> Backup & Restauração</button>
-                <button class="menu-item" id="menu-item-templates"><i class="fas fa-file-alt"></i> Gerenciar Templates</button>
-                <button class="menu-item" id="menu-item-history"><i class="fas fa-history"></i> Histórico de Envios</button>
-                <button class="menu-item" id="menu-item-scheduled"><i class="fas fa-clock"></i> Mensagens Agendadas</button>
-                <button class="menu-item" id="menu-item-remarketing"><i class="fas fa-users-line"></i> Remarketing</button>
-                <button class="menu-item" id="menu-item-export"><i class="fas fa-file-export"></i> Exportar Dados</button>
-                <div class="menu-divider"></div>
-                <button class="menu-item menu-item-danger" id="menu-item-clear-history"><i class="fas fa-trash"></i> Limpar Histórico</button>
-                <button class="menu-item menu-item-danger" id="menu-item-clear-contacts"><i class="fas fa-user-times"></i> Limpar Contatos</button>
-                <button class="menu-item" id="menu-item-import-contacts"><i class="fas fa-file-import"></i> Importar Contatos (JSON)</button>
-            `;
-            const sitContainer = document.getElementById('menu-situations-container');
+        function generateMenuSituationItems() {
+            const container = document.getElementById('menu-situations-container');
+            container.innerHTML = '';
             SITUATIONS.forEach(s => {
                 let btn = document.createElement('button');
                 btn.className = 'menu-item';
                 btn.innerHTML = `<i class="fas ${s.icon}"></i> ${s.title}`;
                 btn.addEventListener('click', () => { showSituation(s.id); toggleMenu(); });
-                sitContainer.appendChild(btn);
+                container.appendChild(btn);
             });
         }
-        function toggleMenu() {
-            let menu = document.getElementById('side-menu'), overlay = document.getElementById('menu-overlay');
-            menu.classList.toggle('active'); overlay.classList.toggle('active');
-            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
-        }
+        function toggleMenu() { let menu = document.getElementById('side-menu'), overlay = document.getElementById('menu-overlay'); menu.classList.toggle('active'); overlay.classList.toggle('active'); document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto'; }
 
-        // ---------- IMPORTAÇÃO/EXPORTAÇÃO TXT (mantido do original, apenas adaptado) ----------
+        // ---------- IMPORTAÇÃO/EXPORTAÇÃO TXT ----------
         function importContactsFromTxt() {
             const input = document.createElement('input'); input.type = 'file'; input.accept = '.txt';
             input.onchange = async (e) => {
@@ -1080,47 +959,47 @@
                             }
                         }
                     });
-                    if (names.length===0) { showToast('Nenhum contato válido.', 'error'); return; }
-                    if (!currentSituation) { showToast('Selecione uma situação.', 'warning'); return; }
+                    if (names.length===0) { showStatus('Nenhum contato válido.','error'); return; }
+                    if (!currentSituation) { showStatus('Selecione uma situação.','warning'); return; }
                     let nameInput = document.getElementById(`client-name-${currentSituation}`);
                     let phoneInput = document.getElementById(`phone-${currentSituation}`);
-                    if (nameInput && phoneInput) { nameInput.value = names.join(', '); phoneInput.value = phones.join(', '); showToast(`${names.length} contato(s) importados!`, 'success'); saveDraft(currentSituation); }
+                    if (nameInput && phoneInput) { nameInput.value = names.join(', '); phoneInput.value = phones.join(', '); showStatus(`${names.length} contato(s) importados!`,'success'); }
                 };
                 reader.readAsText(file);
             };
             input.click();
         }
         function exportCurrentContactsToTxt() {
-            if (!currentSituation) { showToast('Selecione uma situação.', 'warning'); return; }
+            if (!currentSituation) { showStatus('Selecione uma situação.','warning'); return; }
             let nameInput = document.getElementById(`client-name-${currentSituation}`);
             let phoneInput = document.getElementById(`phone-${currentSituation}`);
             if (!nameInput || !phoneInput) return;
             let names = nameInput.value.split(',').map(n=>n.trim()).filter(n=>n);
             let phones = phoneInput.value.split(',').map(p=>p.trim()).filter(p=>p);
-            if (names.length===0 || phones.length===0) { showToast('Não há contatos carregados.', 'error'); return; }
+            if (names.length===0 || phones.length===0) { showStatus('Não há contatos carregados.','error'); return; }
             let content = '';
             for (let i=0; i<Math.min(names.length, phones.length); i++) content += `${names[i]}, ${phones[i]}\n`;
             let blob = new Blob([content], {type:'text/plain;charset=utf-8'});
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a'); a.href = url; a.download = `contatos_${currentSituation}_${new Date().toISOString().slice(0,10)}.txt`; a.click();
             URL.revokeObjectURL(url);
-            showToast('Contatos exportados!', 'success');
+            showStatus('Contatos exportados!','success');
         }
         async function exportRemarketingContactsTxt() {
             try {
                 let contacts = await dbGetAll(STORES.REMARKETING, 'lastContact');
-                if (!contacts || contacts.length===0) { showToast('Nenhum contato salvo.', 'error'); return; }
+                if (!contacts || contacts.length===0) { showStatus('Nenhum contato salvo.','error'); return; }
                 let content = '';
                 contacts.sort((a,b)=>new Date(b.lastContact)-new Date(a.lastContact)).forEach(c => { let phone = c.phone.replace(/^55/,''); content += `${c.name || 'Cliente'}, ${phone}\n`; });
                 let blob = new Blob([content], {type:'text/plain;charset=utf-8'});
                 let url = URL.createObjectURL(blob);
                 let a = document.createElement('a'); a.href = url; a.download = `contatos_salvos_${new Date().toISOString().slice(0,10)}.txt`; a.click();
                 URL.revokeObjectURL(url);
-                showToast('Contatos salvos exportados!', 'success');
-            } catch(e) { showToast('Erro ao exportar.', 'error'); }
+                showStatus('Contatos salvos exportados!','success');
+            } catch(e) { showStatus('Erro ao exportar.','error'); }
         }
 
-        // ---------- HISTÓRICO ----------
+        // ---------- HISTÓRICO (MODAL) ----------
         async function showHistoryModal() { document.getElementById('history-modal').style.display='flex'; await loadHistory('all'); }
         async function loadHistory(filter='all') {
             try {
@@ -1134,10 +1013,10 @@
                 if (!hist.length) { list.innerHTML=''; empty.style.display='block'; return; }
                 empty.style.display='none';
                 list.innerHTML = hist.map(i=>`<div class="history-item"><div class="history-header"><span class="history-client">${i.name}</span><span class="history-phone">${i.phone}</span></div><div class="history-message">${i.message}</div><div class="history-footer"><span class="history-situation">${i.situation?.toUpperCase()||'---'}</span><span>${new Date(i.timestamp).toLocaleString('pt-BR')}</span></div></div>`).join('');
-            } catch(e){ console.error(e); showToast('Erro ao carregar histórico', 'error'); }
+            } catch(e){ console.error(e); showStatus('Erro ao carregar histórico','error'); }
         }
 
-        // ---------- REMARKETING ----------
+        // ---------- REMARKETING (MODAL) ----------
         async function showRemarketingModal() { document.getElementById('remarketing-modal').style.display='flex'; await loadRemarketingContacts(); }
         async function loadRemarketingContacts() {
             try {
@@ -1149,13 +1028,13 @@
             } catch(e){ console.error(e); }
         }
         window.useContactForRemarketing = async (phone, name) => {
-            if (!currentSituation) { showToast('Selecione uma situação.', 'warning'); return; }
+            if (!currentSituation) { showStatus('Selecione uma situação.','warning'); return; }
             let nameInput = document.getElementById(`client-name-${currentSituation}`), phoneInput = document.getElementById(`phone-${currentSituation}`);
-            if (nameInput && phoneInput) { nameInput.value = name; phoneInput.value = phone.replace('55',''); showToast(`Contato ${name} carregado!`, 'success'); saveDraft(currentSituation); document.getElementById('remarketing-modal').style.display='none'; }
+            if (nameInput && phoneInput) { nameInput.value = name; phoneInput.value = phone.replace('55',''); showStatus(`Contato ${name} carregado!`,'success'); document.getElementById('remarketing-modal').style.display='none'; }
         };
-        window.removeFromRemarketing = async (phone) => { if (confirm('Remover contato?')) { await dbDelete(STORES.REMARKETING, phone); showToast('Contato removido', 'success'); loadRemarketingContacts(); updateStats(); } };
+        window.removeFromRemarketing = async (phone) => { if (confirm('Remover contato?')) { await dbDelete(STORES.REMARKETING, phone); showStatus('Contato removido','success'); loadRemarketingContacts(); updateStats(); } };
         async function exportContacts() {
-            try { let cont = await dbGetAll(STORES.REMARKETING); let data = JSON.stringify(cont,null,2); let blob = new Blob([data],{type:'application/json'}); let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href=url; a.download=`contatos_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); showToast('Contatos exportados', 'success'); } catch(e){ showToast('Erro', 'error'); }
+            try { let cont = await dbGetAll(STORES.REMARKETING); let data = JSON.stringify(cont,null,2); let blob = new Blob([data],{type:'application/json'}); let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href=url; a.download=`contatos_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); showStatus('Contatos exportados','success'); } catch(e){ showStatus('Erro','error'); }
         }
 
         // ---------- AGENDADOS ----------
@@ -1169,6 +1048,7 @@
                 list.innerHTML = sched.sort((a,b)=>new Date(a.scheduledTimestamp)-new Date(b.scheduledTimestamp)).map(i=>`<div class="history-item"><div class="history-header"><span class="history-client">${i.name}</span><span class="history-phone">${i.phone}</span></div><div class="history-message">${i.message.substring(0,100)}...</div><div class="history-footer"><span>📅 ${new Date(i.scheduledTimestamp).toLocaleString('pt-BR')}</span></div></div>`).join('');
             } catch(e){}
         }
+        async function processScheduledMessages() { /* implementar se desejar, não essencial */ }
 
         // ---------- TEMPLATES MODAL ----------
         async function showTemplatesModal() { document.getElementById('templates-modal').style.display='flex'; await loadTemplatesList(); }
@@ -1182,9 +1062,9 @@
                 list.innerHTML = templates.map(t=>`<div class="history-item"><div class="history-header"><span class="history-client">${t.name}</span><span class="history-phone">${t.situationId.toUpperCase()}</span></div><div class="history-message">${t.content.replace(/<[^>]*>/g,'').substring(0,80)}...</div><div class="history-footer"><span>${new Date(t.timestamp).toLocaleDateString('pt-BR')}</span><button class="btn btn-sm btn-primary" onclick="window.loadTemplateFromModal('${t.situationId}')"><i class="fas fa-download"></i></button></div></div>`).join('');
             } catch(e){ console.error(e); }
         }
-        window.loadTemplateFromModal = (situationId) => { if (currentSituation) { loadTemplate(situationId); document.getElementById('templates-modal').style.display='none'; showToast('Template carregado!', 'success'); } else { showToast('Selecione uma situação primeiro.', 'warning'); } };
+        window.loadTemplateFromModal = (situationId) => { if (currentSituation) { loadTemplate(situationId); document.getElementById('templates-modal').style.display='none'; showStatus('Template carregado!','success'); } else { showStatus('Selecione uma situação primeiro.','warning'); } };
 
-        // ---------- BACKUP ----------
+        // ---------- BACKUP E RESTAURAÇÃO ----------
         async function createBackup(type='all') {
             let backup = {};
             if (type==='all' || type==='contacts') backup.remarketing = await dbGetAll(STORES.REMARKETING);
@@ -1196,12 +1076,12 @@
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a'); a.href = url; a.download = `imobiconnect_backup_${type}_${new Date().toISOString().slice(0,10)}.json`; a.click();
             URL.revokeObjectURL(url);
-            showToast('✅ Backup criado!', 'success');
+            showStatus('✅ Backup criado!','success');
         }
         async function restoreBackup() {
             let fileInput = document.getElementById('restore-file');
             let file = fileInput.files[0];
-            if (!file) { showToast('Selecione um arquivo de backup.', 'error'); return; }
+            if (!file) { showStatus('Selecione um arquivo de backup.','error'); return; }
             const reader = new FileReader();
             reader.onload = async (e) => {
                 try {
@@ -1209,33 +1089,33 @@
                     if (backup.remarketing) for (let c of backup.remarketing) await dbPut(STORES.REMARKETING, { ...c, id: c.phone });
                     if (backup.history) for (let h of backup.history) await dbAdd(STORES.HISTORY, { ...h, id: h.id || Date.now()+Math.random() });
                     if (backup.templates) for (let t of backup.templates) await dbAdd(STORES.TEMPLATES, { ...t, id: t.id || `template_${Date.now()}_${Math.random()}` });
-                    showToast('✅ Backup restaurado!', 'success');
+                    showStatus('✅ Backup restaurado!','success');
                     updateStats();
                     fileInput.value = '';
                     document.getElementById('backup-modal').style.display='none';
-                } catch(ex) { showToast('❌ Arquivo inválido.', 'error'); }
+                } catch(ex) { showStatus('❌ Arquivo inválido.','error'); }
             };
             reader.readAsText(file);
         }
         async function exportClientsText() {
             let contacts = await dbGetAll(STORES.REMARKETING);
-            if (!contacts.length) { showToast('Nenhum cliente salvo.', 'error'); return; }
+            if (!contacts.length) { showStatus('Nenhum cliente salvo.','error'); return; }
             let content = contacts.map(c => `${c.name || 'Cliente'}, ${c.phone.replace(/^55/,'')}`).join('\n');
             let blob = new Blob([content], {type:'text/plain;charset=utf-8'});
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a'); a.href = url; a.download = `clientes_${new Date().toISOString().slice(0,10)}.txt`; a.click();
             URL.revokeObjectURL(url);
-            showToast('Clientes exportados!', 'success');
+            showStatus('Clientes exportados!','success');
         }
         async function exportHistory() {
             let hist = await dbGetAll(STORES.HISTORY);
-            if (!hist.length) { showToast('Nenhum histórico.', 'error'); return; }
+            if (!hist.length) { showStatus('Nenhum histórico.','error'); return; }
             let content = hist.map(h => `${h.name}, ${h.phone}, ${h.situation}, ${h.timestamp}, "${h.message}"`).join('\n');
             let blob = new Blob([content], {type:'text/plain;charset=utf-8'});
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a'); a.href = url; a.download = `historico_${new Date().toISOString().slice(0,10)}.csv`; a.click();
             URL.revokeObjectURL(url);
-            showToast('Histórico exportado!', 'success');
+            showStatus('Histórico exportado!','success');
         }
         function triggerFileImport() {
             const input = document.createElement('input'); input.type = 'file'; input.accept = '.json';
@@ -1246,53 +1126,31 @@
                     try {
                         let data = JSON.parse(ev.target.result);
                         if (Array.isArray(data)) for (let c of data) await dbPut(STORES.REMARKETING, { ...c, id: c.phone });
-                        showToast('Contatos importados!', 'success');
+                        showStatus('Contatos importados!','success');
                         updateStats();
-                    } catch(ex) { showToast('Arquivo inválido', 'error'); }
+                    } catch(ex) { showStatus('Arquivo inválido','error'); }
                 };
                 reader.readAsText(file);
             };
             input.click();
         }
 
-        // ---------- SPLASH SCREEN ----------
-        function hideSplash() {
-            setTimeout(() => {
-                document.getElementById('splash-screen').classList.add('hidden');
-                setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 500);
-            }, 1500);
-        }
-
         // ---------- INICIALIZAÇÃO ----------
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Inicializando ImobiConnect Pro Mobile');
+            console.log('🚀 Inicializando ImobiConnect Pro Anti‑Spam');
             await initDB();
             generatePages();
-            generateMenuItems();
+            generateMenuSituationItems();
             loadConfig();
             loadSentToday();
             updateStats();
-            initSwipe();
-            initPullToRefresh();
-            initTheme();
-            hideSplash();
-
-            // Bottom navigation
-            const bottomNav = document.getElementById('bottom-nav');
-            SITUATIONS.forEach(s => {
-                let navItem = document.createElement('div');
-                navItem.className = 'nav-item';
-                navItem.dataset.nav = s.id;
-                navItem.innerHTML = `<i class="fas ${s.icon}"></i><span>${s.id.toUpperCase()}</span>`;
-                navItem.addEventListener('click', () => showSituation(s.id));
-                bottomNav.appendChild(navItem);
-            });
-            document.querySelector('[data-nav="home"]').addEventListener('click', showHome);
+            setInterval(processScheduledMessages, 30000);
+            processScheduledMessages();
 
             // Eventos globais
             document.getElementById('back-button').addEventListener('click', showHome);
             document.getElementById('app-pages').addEventListener('click', (e) => { let card = e.target.closest('.situation-card'); if (card) showSituation(card.dataset.situation); });
-            document.getElementById('send-messages-btn').addEventListener('click', function() { let target = this.getAttribute('data-target'); if (target) handleSend(target); else showToast('Nenhuma situação ativa.', 'warning'); });
+            document.getElementById('send-messages-btn').addEventListener('click', function() { let target = this.getAttribute('data-target'); if (target) handleSend(target); else showStatus('Nenhuma situação ativa.','warning'); });
 
             document.addEventListener('click', function(e) {
                 let emojiBtn = e.target.closest('[data-emoji]');
@@ -1321,8 +1179,8 @@
             document.getElementById('menu-item-scheduled').addEventListener('click', () => { showScheduledModal(); toggleMenu(); });
             document.getElementById('menu-item-remarketing').addEventListener('click', () => { showRemarketingModal(); toggleMenu(); });
             document.getElementById('menu-item-export').addEventListener('click', () => { document.getElementById('backup-modal').style.display='flex'; toggleMenu(); });
-            document.getElementById('menu-item-clear-history').addEventListener('click', async () => { if(confirm('Limpar histórico?')){ await dbClear(STORES.HISTORY); showToast('Histórico limpo', 'success'); updateStats(); } toggleMenu(); });
-            document.getElementById('menu-item-clear-contacts').addEventListener('click', async () => { if(confirm('Limpar contatos?')){ await dbClear(STORES.REMARKETING); showToast('Contatos limpos', 'success'); updateStats(); } toggleMenu(); });
+            document.getElementById('menu-item-clear-history').addEventListener('click', async () => { if(confirm('Limpar histórico?')){ await dbClear(STORES.HISTORY); showStatus('Histórico limpo','success'); updateStats(); } toggleMenu(); });
+            document.getElementById('menu-item-clear-contacts').addEventListener('click', async () => { if(confirm('Limpar contatos?')){ await dbClear(STORES.REMARKETING); showStatus('Contatos limpos','success'); updateStats(); } toggleMenu(); });
             document.getElementById('menu-item-import-contacts').addEventListener('click', () => { triggerFileImport(); toggleMenu(); });
             document.getElementById('menu-item-import-txt').addEventListener('click', () => { importContactsFromTxt(); toggleMenu(); });
             document.getElementById('menu-item-export-txt').addEventListener('click', () => { exportCurrentContactsToTxt(); toggleMenu(); });
@@ -1333,16 +1191,16 @@
                 let file = document.getElementById('logo-upload').files[0];
                 if (file && file.type.startsWith('image/')) {
                     let reader = new FileReader();
-                    reader.onload = (e) => { let logo = document.getElementById('logo-mobile'); logo.src = e.target.result; logo.style.display = 'block'; localStorage.setItem('corretorLogo', e.target.result); showToast('Logo carregada!', 'success'); };
+                    reader.onload = (e) => { let logo = document.getElementById('logo-mobile'); logo.src = e.target.result; logo.style.display = 'block'; localStorage.setItem('corretorLogo', e.target.result); showStatus('Logo carregada!','success'); };
                     reader.readAsDataURL(file);
-                } else showToast('Selecione uma imagem', 'error');
+                } else showStatus('Selecione uma imagem','error');
                 document.getElementById('logo-modal').style.display='none';
             });
 
             // Configurações
             document.getElementById('save-settings').addEventListener('click', saveConfig);
 
-            // Backup
+            // Backup / Restauração
             document.getElementById('backup-all').addEventListener('click', () => createBackup('all'));
             document.getElementById('backup-contacts').addEventListener('click', () => createBackup('contacts'));
             document.getElementById('backup-history').addEventListener('click', () => createBackup('history'));
@@ -1365,6 +1223,7 @@
             // Logo salva
             let savedLogo = localStorage.getItem('corretorLogo');
             if (savedLogo) { let logo = document.getElementById('logo-mobile'); logo.src = savedLogo; logo.style.display = 'block'; }
+            if (localStorage.getItem('darkMode') === 'enabled') { document.body.classList.add('dark-mode'); document.getElementById('menu-item-dark-mode').innerHTML = '<i class="fas fa-sun"></i> Modo Claro'; }
 
             console.log('✅ Pronto!');
         });
